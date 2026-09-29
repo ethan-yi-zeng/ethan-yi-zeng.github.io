@@ -25,7 +25,8 @@
     button { touch-action: manipulation; }
     .page { width: min(1040px, calc(100% - 56px)); margin: 0 auto; }
     .site-header { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 88px; border-bottom: 1px solid #eceff0; }
-    .identity { text-decoration: none; font: 28px/1.1 Georgia, "Times New Roman", serif; color: var(--ink); }
+    .identity { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 52px; width: 52px; height: 52px; border-radius: 4px; text-decoration: none; }
+    .identity img { display: block; width: 48px; height: 48px; object-fit: contain; }
     nav { display: flex; align-items: center; gap: 25px; font-size: 13px; }
     nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
     .mobile-nav { display: none; position: relative; z-index: 10; }
@@ -294,7 +295,6 @@
     @media (max-width: 640px) {
       .page { width: calc(100% - 40px); }
       .site-header { min-height: 85px; gap: 18px; }
-      .identity { font-size: 25px; white-space: nowrap; }
       .site-header > nav { display: none; }
       .mobile-nav { display: block; }
       .chapter-nav a { padding-inline: 4px; font-size: 12px; white-space: nowrap; }
@@ -453,7 +453,7 @@
   <a class="skip-link" href="#systems">Skip to current work</a>
   <div class="page">
     <header class="site-header">
-      <a class="identity" href="#profile-name">Ethan (Yi) Zeng</a>
+      <a class="identity" href="#profile-name" aria-label="Ethan (Yi) Zeng - Home" title="Home"><img src="assets/brand/icon-192.png?v=yi-node-2" width="48" height="48" alt=""></a>
       <nav aria-label="Main navigation">
         <a href="#systems" class="desktop-link">Work</a>
         <a href="#selected-work">Publications</a>

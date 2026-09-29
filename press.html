@@ -21,7 +21,8 @@
     a:hover { color: var(--teal); text-decoration-color: currentColor; }
     a:focus-visible, summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
     .site-header { display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 88px; border-bottom: 1px solid #eceff0; }
-    .identity { text-decoration: none; font: 28px/1.1 Georgia, "Times New Roman", serif; white-space: nowrap; }
+    .identity { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 52px; width: 52px; height: 52px; border-radius: 4px; text-decoration: none; }
+    .identity img { display: block; width: 48px; height: 48px; object-fit: contain; }
     nav { display: flex; align-items: center; gap: 25px; font-size: 13px; }
     nav a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
     nav [aria-current] { color: var(--teal); }
@@ -58,7 +59,6 @@
     @media (max-width: 640px) {
       .page { width: calc(100% - 40px); }
       .site-header { min-height: 85px; gap: 18px; }
-      .identity { font-size: 25px; }
       .site-header > nav { display: none; }
       .mobile-nav { display: block; }
       .intro { padding: 27px 0 23px; grid-template-columns: minmax(0, 1fr) 60px; gap: 18px; align-items: start; }
@@ -100,7 +100,7 @@
   <a class="skip-link" href="#reporting">Skip to reporting</a>
   <div class="page">
     <header class="site-header">
-      <a class="identity" href="index.html">Yi Zeng</a>
+      <a class="identity" href="index.html" aria-label="Ethan (Yi) Zeng - Home" title="Home"><img src="assets/brand/icon-192.png?v=yi-node-2" width="48" height="48" alt=""></a>
       <nav aria-label="Main navigation">
         <a class="desktop-link" href="index.html#systems">Work</a>
         <a href="index.html#selected-work">Publications</a>
