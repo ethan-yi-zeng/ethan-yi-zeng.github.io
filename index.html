@@ -186,6 +186,12 @@
     .section-heading a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
     .section-context { font-size: 12px; color: var(--muted); }
     .systems { padding: 34px 0 36px; }
+    .systems > .career-disclosure { margin-bottom: 24px; }
+    .systems > .section-heading { align-items: center; }
+    .work-heading { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
+    .work-heading h2 { min-width: 0; }
+    .tiktok-mark { width: 28px; height: 28px; flex: 0 0 28px; margin-top: 2px; fill: currentColor; }
+    .systems .section-context { flex-shrink: 0; color: var(--teal); }
     .work-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; margin: 22px 0 4px; background: #f2f6f5; border: 1px solid var(--line); border-radius: 6px; }
     .work-tab { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 10px 8px; border: 1px solid transparent; border-radius: 3px; background: transparent; color: #525d64; font-size: 13px; line-height: 1.4; transition: background-color 140ms, color 140ms, border-color 140ms; }
     .work-tab-label { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 4px; }
@@ -347,6 +353,7 @@
       .selected-work { padding-top: 34px; }
       .systems { padding-top: 34px; }
       .systems .section-heading { display: block; }
+      .systems .section-context { margin-left: 40px; }
       .work-tabs { gap: 3px; padding: 3px; margin: 18px 0 4px; }
       .work-tab { min-height: 68px; padding: 8px 3px; font-size: 12px; }
       .work-tab-label { display: grid; gap: 2px; }
@@ -407,6 +414,26 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <!--
+      TikTok mark: Bootstrap Icons, https://github.com/twbs/icons/blob/main/icons/tiktok.svg
+      The MIT License (MIT). Copyright (c) 2019-2024 The Bootstrap Authors.
+      Permission is hereby granted, free of charge, to any person obtaining a copy
+      of this software and associated documentation files (the "Software"), to deal
+      in the Software without restriction, including without limitation the rights
+      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+      copies of the Software, and to permit persons to whom the Software is
+      furnished to do so, subject to the following conditions:
+      The above copyright notice and this permission notice shall be included in
+      all copies or substantial portions of the Software.
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+      THE SOFTWARE.
+    -->
+    <symbol id="brand-tiktok" viewBox="0 0 16 16"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/></symbol>
     <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></symbol>
     <symbol id="icon-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></symbol>
     <symbol id="icon-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M8 11h6"/></symbol>
@@ -455,14 +482,6 @@
         </div>
         <img class="portrait" src="assets/yi-zeng-portrait.jpg" alt="Yi Zeng with a dog" width="156" height="156" decoding="async">
       </section>
-      <details class="career-disclosure" id="experience">
-        <summary>Experience at TikTok <span>2025&ndash;present</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <div class="career" aria-label="TikTok work history">
-          <div class="career-item current"><time>Jul. 2026&ndash;present</time><strong>Safety Research Lead, Foundation Model</strong><span>Safety training &amp; evaluation, including agents and red-teaming</span></div>
-          <div class="career-item"><time>Jan. 2026&ndash;Jul. 2026</time><strong>Senior Staff Research Scientist</strong><span>Platform-wide data flywheel for model training &amp; evaluation</span></div>
-          <div class="career-item"><time>May 2025&ndash;Jan. 2026</time><strong>Staff Research Scientist</strong><span>Alignment data &amp; deliberative alignment across regional policies</span></div>
-        </div>
-      </details>
       <section id="research" aria-labelledby="research-title">
         <div class="intro">
           <p class="eyebrow">Research perspective</p>
@@ -535,7 +554,15 @@
         </div>
       </section>
       <section class="systems" id="systems" aria-labelledby="systems-heading">
-        <div class="section-heading"><h2 id="systems-heading">Research I lead at TikTok</h2><span class="section-context">2025&ndash;present</span></div>
+        <details class="career-disclosure" id="experience">
+          <summary>Experience at TikTok <span>2025&ndash;present</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+          <div class="career" aria-label="TikTok work history">
+            <div class="career-item current"><time>Jul. 2026&ndash;present</time><strong>Safety Research Lead, Foundation Model</strong><span>Safety training &amp; evaluation, including agents and red-teaming</span></div>
+            <div class="career-item"><time>Jan. 2026&ndash;Jul. 2026</time><strong>Senior Staff Research Scientist</strong><span>Platform-wide data flywheel for model training &amp; evaluation</span></div>
+            <div class="career-item"><time>May 2025&ndash;Jan. 2026</time><strong>Staff Research Scientist</strong><span>Alignment data &amp; deliberative alignment across regional policies</span></div>
+          </div>
+        </details>
+        <div class="section-heading"><div class="work-heading"><svg class="tiktok-mark" aria-hidden="true" focusable="false"><use href="#brand-tiktok"/></svg><h2 id="systems-heading">Research I lead at TikTok</h2></div><span class="section-context">Current scope</span></div>
         <div class="work-tabs" id="work-tabs" role="tablist" aria-label="TikTok research areas" hidden>
           <button type="button" class="work-tab" id="work-tab-foundations" role="tab" data-work-tab="foundations" aria-controls="work-foundations" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Data</span> <span>&amp; Pretraining</span></span></button>
           <button type="button" class="work-tab" id="work-tab-adaptation" role="tab" data-work-tab="adaptation" aria-controls="work-adaptation" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Post-training</span> <span>&amp; Adaptation</span></span></button>
