@@ -9,7 +9,7 @@
     :root { color-scheme: light; --ink: #22282b; --muted: #656e74; --line: #d9dfe1; --teal: #167b77; --coral: #ba4b3c; --blue: #386a94; --active: var(--coral); }
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
-    html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
     body { margin: 0; background: #fff; color: var(--ink); font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; letter-spacing: 0; }
     button, a { -webkit-tap-highlight-color: transparent; }
     button { font: inherit; color: inherit; cursor: pointer; letter-spacing: 0; }
@@ -39,11 +39,19 @@
     .profile-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 10px; font-size: 12px; }
     .profile-links a { display: inline-flex; align-items: center; min-height: 44px; }
     .portrait { display: block; width: 156px; height: 156px; aspect-ratio: 1; object-fit: cover; object-position: 50% 78%; border-radius: 4px; }
-    .intro { padding: 24px 0 17px; border-top: 1px solid #eceff0; }
+    .chapter-nav { position: sticky; top: 0; z-index: 8; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; min-height: 52px; background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); isolation: isolate; }
+    .chapter-nav a { justify-content: center; gap: 8px; min-width: 0; min-height: 52px; padding: 10px 8px; color: var(--muted); font-size: 13px; line-height: 1.3; text-align: center; transition: color 160ms ease; }
+    .chapter-nav a[aria-current="location"] { color: var(--teal); }
+    .chapter-nav a:focus-visible { outline-offset: -5px; }
+    .chapter-indicator { position: absolute; bottom: -1px; left: 0; width: calc(100% / 3); height: 2px; background: var(--teal); pointer-events: none; opacity: 0; transition: transform 220ms cubic-bezier(.23, 1, .32, 1), opacity 160ms ease; }
+    .chapter-nav[data-enhanced] .chapter-indicator { opacity: 1; }
+    .chapter-nav.keyboard-navigation .chapter-indicator { transition: none; }
+    .chapter-nav a:active { color: var(--ink); }
+    @media (hover: hover) and (pointer: fine) { .chapter-nav a:hover { color: var(--ink); background: #f6f8f7; } }
+    .intro { padding: 28px 0 20px; }
     .eyebrow { font-size: 11px; color: var(--muted); margin: 0 0 9px; text-transform: uppercase; }
     h1 { font: 38px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 12px; font-weight: 400; text-wrap: balance; }
-    .research-title { font: 30px/1.25 Georgia, "Times New Roman", serif; margin: 0 0 9px; }
-    .intro p:last-child { color: var(--muted); margin: 0; font-size: 14px; }
+    .intro > p { color: var(--muted); margin: 16px 0 0; font-size: 14px; max-width: 90ch; }
     .career { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 4px 0 20px; padding: 17px 0; border-bottom: 1px solid #eceff0; }
     .career-item { min-width: 0; padding-top: 12px; border-top: 1px solid #d3dcdf; }
     .career-item.current { border-top-color: var(--teal); }
@@ -181,16 +189,17 @@
     .stage:active, .measure:active, .era:active, .mobile-nav summary:active, .detail-close:active { background-color: #f0f6f5; }
     .atlas.keyboard-navigation *, .atlas.keyboard-navigation *::before, .atlas.keyboard-navigation *::after { transition: none !important; }
     .selected-work { padding: 45px 0 20px; }
-    .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 17px; }
+    .section-heading { border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+    .chapter-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; margin-bottom: 4px; }
+    .chapter-meta .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; line-height: 1.4; }
+    .section-heading .section-title { font: 30px/1.25 Georgia, "Times New Roman", serif; margin: 0; text-wrap: balance; }
+    .section-title:focus-visible { outline: 2px solid var(--teal); outline-offset: 6px; }
     h2 { font: 26px/1.2 Georgia, "Times New Roman", serif; margin: 0; font-weight: 400; }
     .section-heading a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
     .section-context { font-size: 12px; color: var(--muted); }
     .systems { padding: 34px 0 36px; }
     .systems > .career-disclosure { margin-bottom: 24px; }
-    .systems > .section-heading { align-items: center; }
-    .work-heading { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
-    .work-heading h2 { min-width: 0; }
-    .tiktok-mark { width: 28px; height: 28px; flex: 0 0 28px; margin-top: 2px; fill: currentColor; }
+    .tiktok-mark { width: 16px; height: 18px; flex: 0 0 16px; fill: currentColor; }
     .systems .section-context { flex-shrink: 0; color: var(--teal); }
     .work-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; margin: 22px 0 4px; background: #f2f6f5; border: 1px solid var(--line); border-radius: 6px; }
     .work-tab { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 10px 8px; border: 1px solid transparent; border-radius: 3px; background: transparent; color: #525d64; font-size: 13px; line-height: 1.4; transition: background-color 140ms, color 140ms, border-color 140ms; }
@@ -203,6 +212,7 @@
     .work-group-title { font: 18px/1.4 Georgia, "Times New Roman", serif; margin: 28px 0 0; }
     @media (hover: hover) and (pointer: fine) { .work-tab:not([aria-selected="true"]):hover { background: #e5eeeb; color: var(--ink); } }
     @media print { .work-tabs { display: none !important; } .work-panel[hidden], .work-group-title[hidden] { display: block !important; } }
+    @media print { .chapter-nav { display: none; } html { scroll-padding-top: 0; } }
     .system { display: grid; grid-template-columns: clamp(180px, 23%, 240px) minmax(0, 1fr); column-gap: clamp(24px, 3%, 38px); padding: 25px 0; border-bottom: 1px solid #e9edee; align-items: start; }
     .system h3 { font: 22px/1.3 Georgia, "Times New Roman", serif; margin: 5px 0 8px; text-wrap: balance; }
     .system h3 a { text-decoration: none; }
@@ -294,9 +304,9 @@
       .career-disclosure > summary { font-size: 12px; gap: 8px; }
       .career-disclosure > summary span { font-size: 11px; }
       .intro { padding: 24px 0 18px; }
-      .research-title { font-size: 27px; }
+      .section-heading .section-title { font-size: 27px; }
       h1 { font-size: 31px; line-height: 1.17; max-width: 360px; }
-      .intro p:last-child { font-size: 14px; line-height: 1.6; }
+      .intro > p { font-size: 14px; line-height: 1.6; }
       .lifecycle { position: relative; padding: 0; margin-top: 3px; }
       .stage-controls { display: flex; flex-direction: column; width: 100%; padding: 0; pointer-events: none; }
       .stage { width: 100%; min-height: 56px; padding: 12px 26px 12px 44px; text-align: left; pointer-events: auto; scroll-margin-top: 16px; }
@@ -352,12 +362,9 @@
       .lineage-meta { font-size: 12px; margin-top: -3px; }
       .selected-work { padding-top: 34px; }
       .systems { padding-top: 34px; }
-      .systems .section-heading { display: block; }
-      .systems .section-context { margin-left: 40px; }
       .work-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; padding: 3px; margin: 18px 0 4px; }
       .work-tab { min-height: 60px; padding: 8px 6px; font-size: 12px; }
       .work-tab-label { display: grid; gap: 2px; }
-      .section-context { display: block; margin-top: 8px; }
       .system { grid-template-columns: 112px minmax(0, 1fr); gap: 6px 16px; padding: 23px 0 15px; }
       .system-copy { display: contents; }
       .system-figure { grid-column: 1; grid-row: 1 / span 3; }
@@ -468,10 +475,18 @@
         </div>
         <img class="portrait" src="assets/yi-zeng-portrait.jpg" alt="Yi Zeng with a dog" width="156" height="156" decoding="async">
       </section>
+      <nav class="chapter-nav" aria-label="Page sections">
+        <a href="#research">Perspective</a>
+        <a href="#systems">At TikTok</a>
+        <a href="#selected-work">Publications</a>
+        <span class="chapter-indicator" aria-hidden="true"></span>
+      </nav>
       <section id="research" aria-labelledby="research-title">
         <div class="intro">
-          <p class="eyebrow">Research perspective</p>
-          <h2 class="research-title" id="research-title">Safety as a learned capability</h2>
+          <header class="section-heading">
+            <div class="chapter-meta"><p class="eyebrow">Research perspective</p></div>
+            <h2 class="section-title research-title" id="research-title">Safety as a learned capability</h2>
+          </header>
           <p>Our <a href="#paper-finetuning">earlier work</a> showed that fine-tuning can undo alignment. I study how safety is learned during pretraining and mid-training, shaped by post-training, and retained as models adapt.</p>
         </div>
         <div class="atlas" id="atlas" hidden>
@@ -548,7 +563,10 @@
             <div class="career-item"><time>May 2025&ndash;Jan. 2026</time><strong>Staff Research Scientist</strong><span>Alignment data &amp; deliberative alignment across regional policies</span></div>
           </div>
         </details>
-        <div class="section-heading"><div class="work-heading"><svg class="tiktok-mark" aria-hidden="true" focusable="false"><use href="#brand-tiktok"/></svg><h2 id="systems-heading">Research I lead at TikTok</h2></div><span class="section-context">Current scope</span></div>
+        <header class="section-heading">
+          <div class="chapter-meta"><p class="eyebrow section-context"><svg class="tiktok-mark" aria-hidden="true" focusable="false"><use href="#brand-tiktok"/></svg>Current scope</p></div>
+          <h2 class="section-title" id="systems-heading">Research I lead at TikTok</h2>
+        </header>
         <div class="work-tabs" id="work-tabs" role="tablist" aria-label="TikTok research areas" hidden>
           <button type="button" class="work-tab" id="work-tab-foundations" role="tab" data-work-tab="foundations" aria-controls="work-foundations" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Data</span> <span>&amp; Pretraining</span></span></button>
           <button type="button" class="work-tab" id="work-tab-adaptation" role="tab" data-work-tab="adaptation" aria-controls="work-adaptation" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Post-training</span> <span>&amp; Adaptation</span></span></button>
@@ -614,7 +632,10 @@
           </section></div>
       </section>
       <section class="selected-work" id="selected-work" aria-labelledby="work-heading">
-        <div class="section-heading"><h2 id="work-heading">Selected publications</h2><a href="https://scholar.google.com/citations?user=Gr4FG08AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></div>
+        <header class="section-heading">
+          <div class="chapter-meta"><p class="eyebrow">Published research</p><a href="https://scholar.google.com/citations?user=Gr4FG08AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></div>
+          <h2 class="section-title" id="work-heading">Selected publications</h2>
+        </header>
         <div id="publication-list">
           <article class="publication has-figure" id="paper-mcpo" data-paper="mcpo">
             <a class="figure-link publication-figure" href="https://neurips.cc/virtual/2026/poster/150744" target="_blank" rel="noopener noreferrer" aria-label="Open publication: Mode-Controlled Policy Optimization: A Geometry-Aware Recipe for LLM Post-Training (Concept illustration)" title="Open publication"><img src="assets/work/posttraining-geometry-concept-thumb.jpg" srcset="assets/work/posttraining-geometry-concept-thumb.jpg 640w, assets/work/posttraining-geometry-concept.jpg 1536w" sizes="(max-width: 640px) 88px, 132px" width="1536" height="1024" loading="lazy" decoding="async" alt="An alpha-divergence dial illustrates the choice between mode-seeking and mode-covering in post-training."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
@@ -1290,7 +1311,8 @@
     function revealTrigger(key) {
       const trigger = controls.find(button => button.dataset.select === key);
       const bounds = trigger.getBoundingClientRect();
-      if (bounds.top < 16 || bounds.bottom > window.innerHeight - 16) trigger.scrollIntoView({block:'start', behavior:'instant'});
+      const visibleTop = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 16;
+      if (bounds.top < visibleTop || bounds.bottom > window.innerHeight - 16) trigger.scrollIntoView({block:'start', behavior:'instant'});
     }
     function openInline(key) {
       clearTimeout(hoverTimer);
@@ -1465,6 +1487,59 @@
     restoreLocation(true);
     queueDiagramLayout();
     atlasReady = true;
+
+    const chapterNav = document.querySelector('.chapter-nav');
+    const chapterLinks = [...chapterNav.querySelectorAll('a')];
+    const chapters = chapterLinks.map(link => document.getElementById(link.hash.slice(1)));
+    const chapterIndicator = chapterNav.querySelector('.chapter-indicator');
+    let chapterIndex = -1;
+    let chapterFrame = null;
+    function markChapter(index) {
+      if (chapterIndex === index) return;
+      chapterIndex = index;
+      chapterLinks.forEach((link, i) => {
+        if (i === index) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      chapterIndicator.style.transform = `translateX(${index * 100}%)`;
+    }
+    function syncChapters() {
+      if (viewer.open) return;
+      const readingLine = Math.max(0, chapterNav.getBoundingClientRect().bottom) + 28;
+      let index = 0;
+      chapters.forEach((chapter, i) => {
+        const bounds = chapter.getBoundingClientRect();
+        if (bounds.height > 0 && bounds.top <= readingLine) index = i;
+      });
+      markChapter(index);
+    }
+    function queueChapterSync() {
+      if (chapterFrame !== null) return;
+      chapterFrame = requestAnimationFrame(() => { chapterFrame = null; syncChapters(); });
+    }
+    chapterNav.addEventListener('click', event => {
+      const link = event.target.closest('a');
+      if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      const index = chapterLinks.indexOf(link);
+      const target = chapters[index];
+      const instant = reducedMotion.matches || event.detail === 0;
+      chapterNav.classList.toggle('keyboard-navigation', event.detail === 0);
+      if (location.hash !== link.hash) history.pushState({ workGroup: activeWorkGroup }, '', link.hash);
+      currentAddress = location.href;
+      const heading = target.querySelector('.section-title');
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+      target.scrollIntoView({ block: 'start', behavior: instant ? 'instant' : 'smooth' });
+      if (instant) markChapter(index);
+    });
+    window.addEventListener('scroll', queueChapterSync, { passive: true });
+    window.addEventListener('resize', syncChapters);
+    window.addEventListener('load', syncChapters);
+    document.addEventListener('toggle', syncChapters, true);
+    if ('ResizeObserver' in window) new ResizeObserver(syncChapters).observe(document.querySelector('main'));
+    syncChapters();
+    chapterNav.dataset.enhanced = 'true';
   </script>
 </body>
 </html>
