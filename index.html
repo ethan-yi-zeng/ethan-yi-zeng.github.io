@@ -1,104 +1,1412 @@
-<script>  window.onload=function() 
- { 
- setInterval("redirect();",3000); 
- }  function redirect() 
- { 
- window.location.href="http://www.yi-zeng.com/"; 
- } 
-</script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yi Zeng: research on how safety is learned, transferred, and retained across the model lifecycle.">
+  <title>Yi Zeng | Safety as a Learned Capability</title>
+  <style>
+    :root { color-scheme: light; --ink: #22282b; --muted: #656e74; --line: #d9dfe1; --teal: #167b77; --coral: #ba4b3c; --blue: #386a94; --active: var(--coral); }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+    body { margin: 0; background: #fff; color: var(--ink); font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; letter-spacing: 0; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; color: inherit; cursor: pointer; letter-spacing: 0; }
+    a { color: inherit; text-decoration-color: #bbc5c7; text-underline-offset: 4px; }
+    a:hover { color: var(--teal); text-decoration-color: currentColor; }
+    a:focus-visible, button:focus-visible, summary:focus-visible, .detail-content:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 2px; }
+    button { touch-action: manipulation; }
+    .page { width: min(1040px, calc(100% - 56px)); margin: 0 auto; }
+    .site-header { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 88px; border-bottom: 1px solid #eceff0; }
+    .identity { text-decoration: none; font: 28px/1.1 Georgia, "Times New Roman", serif; color: var(--ink); }
+    nav { display: flex; align-items: center; gap: 25px; font-size: 13px; }
+    nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .mobile-nav { display: none; position: relative; z-index: 10; }
+    .mobile-nav summary { width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; list-style: none; border-radius: 4px; }
+    .mobile-nav summary::-webkit-details-marker { display: none; }
+    .mobile-nav[open] summary { background: #eef5f4; color: var(--teal); }
+    .mobile-nav nav { position: absolute; right: 0; top: 52px; width: 240px; max-width: calc(100vw - 40px); display: grid; gap: 0; padding: 8px; background: #fff; border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 8px 24px #22282b12; }
+    .mobile-nav nav a { padding: 8px 12px; min-height: 44px; font-size: 14px; }
+    nav .external { display: inline-flex; gap: 3px; align-items: center; }
+    .icon { width: 16px; height: 16px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .profile { display: grid; grid-template-columns: minmax(0, 1fr) 156px; gap: 48px; align-items: center; padding: 33px 0 30px; }
+    .profile-copy { max-width: 66ch; }
+    .profile h1 { margin-bottom: 5px; }
+    .profile-role { font-size: 13px; color: var(--teal); margin: 0 0 12px; }
+    .profile-bio { margin: 0 0 8px; font-size: 15px; line-height: 1.65; }
+    .profile-background { margin: 0; color: var(--muted); font-size: 13px; }
+    .profile-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 10px; font-size: 12px; }
+    .profile-links a { display: inline-flex; align-items: center; min-height: 44px; }
+    .portrait { display: block; width: 156px; height: 156px; aspect-ratio: 1; object-fit: cover; object-position: 50% 78%; border-radius: 4px; }
+    .intro { padding: 24px 0 17px; border-top: 1px solid #eceff0; }
+    .eyebrow { font-size: 11px; color: var(--muted); margin: 0 0 9px; text-transform: uppercase; }
+    h1 { font: 38px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 12px; font-weight: 400; text-wrap: balance; }
+    .research-title { font: 30px/1.25 Georgia, "Times New Roman", serif; margin: 0 0 9px; }
+    .intro p:last-child { color: var(--muted); margin: 0; font-size: 14px; }
+    .career { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 4px 0 20px; padding: 17px 0; border-bottom: 1px solid #eceff0; }
+    .career-item { min-width: 0; padding-top: 12px; border-top: 1px solid #d3dcdf; }
+    .career-item.current { border-top-color: var(--teal); }
+    .career-disclosure { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .career-disclosure > summary, .earlier-publications > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 56px; font-size: 13px; }
+    .career-disclosure > summary::-webkit-details-marker, .earlier-publications > summary::-webkit-details-marker, .work-details > summary::-webkit-details-marker { display: none; }
+    .career-disclosure > summary span, .earlier-publications > summary span { margin-left: auto; color: var(--muted); font-size: 12px; }
+    details > summary .icon { transition: transform 160ms ease-out; }
+    details[open] > summary .icon { transform: rotate(180deg); }
+    .career-disclosure .career { border: 0; margin: 0; padding: 8px 0 24px; }
+    .career time { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+    .career strong { display: block; font-size: 14px; font-weight: 550; }
+    .career span { color: var(--muted); font-size: 12px; }
+    .atlas { position: relative; --active: var(--coral); }
+    .lifecycle { padding-top: 8px; }
+    .stage-controls { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; z-index: 2; }
+    .stage { border: 0; background: none; padding: 12px 5px 9px; text-align: center; min-height: 48px; position: relative; border-radius: 4px 4px 0 0; transition: background-color 140ms; }
+    .stage.is-selected-region { background: #f6f7f7; }
+    .stage.is-hovered, .stage:focus-visible { background: #eceff0; }
+    .stage-region { cursor: pointer; }
+    .stage-region rect { fill: #eceff0; opacity: 0; pointer-events: all; transition: opacity 140ms; }
+    .stage-region.is-selected-region rect { opacity: .45; }
+    .stage-region.is-hovered rect, .stage-region.is-focused rect { opacity: 1; }
+    .stage-title { display: block; font-size: 15px; line-height: 1.45; transition: color 180ms; }
+    .stage-subtitle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    .stage.is-active .stage-title { color: var(--active); }
+    .stage::after { content: ""; position: absolute; left: 50%; bottom: -3px; height: 2px; width: 20px; background: var(--active); transform: translateX(-50%) scaleX(0); transition: transform 200ms; }
+    .stage.is-active::after { transform: translateX(-50%) scaleX(1); }
+    .plot { position: relative; width: 100%; aspect-ratio: 1100 / 252; margin-top: 2px; }
+    .plot svg { width: 100%; height: 100%; overflow: visible; display: block; }
+    .mobile-svg { display: none !important; }
+    .guide { fill: none; stroke: #d5dfe2; stroke-width: .8; stroke-dasharray: 1 3; pointer-events: none; }
+    .strand { fill: none; stroke-width: 1; opacity: .32; transition: opacity 240ms, stroke-width 240ms; pointer-events: none; vector-effect: non-scaling-stroke; }
+    .strand.gray { stroke: #b3bec4; }
+    .strand.teal { stroke: var(--teal); }
+    .strand.coral { stroke: var(--coral); }
+    .strand.blue { stroke: var(--blue); }
+    .strand.lit { opacity: .72; stroke-width: 1.1; }
+    .strand.teal { opacity: .65; stroke-width: 1.5; }
+    .strand.teal.lit { opacity: 1; stroke-width: 1.65; }
+    .strand.coral.lit { opacity: .63; }
+    .weave-junction { fill: #fff; stroke: #8da9b7; stroke-width: 1; pointer-events: none; }
+    .weave-junction.teal { stroke: var(--teal); }
+    .weave-junction.blue { stroke: var(--blue); }
+    .weave-junction.coral { stroke: var(--coral); }
+    .weave-token { fill: #84a9bf; opacity: .75; pointer-events: none; }
+    .weave-token.teal { fill: var(--teal); }
+    .weave-token.blue { fill: var(--blue); }
+    .weave-token.coral { fill: var(--coral); }
+    .flow-packet { opacity: 0; pointer-events: none; }
+    .weave-glyph { color: #6387a1; fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+    .weave-zone { opacity: .65; transition: opacity 200ms; }
+    .weave-zone.is-emphasized { opacity: 1; }
+    .concept-label { position: absolute; left: 0; bottom: 2px; font-size: 10px; color: var(--muted); }
+    .data-vignette { display: none; }
+    .node-dot { fill: var(--teal); stroke: #fff; stroke-width: 2; transition: fill 180ms; }
+    .node-ring { fill: #fff; stroke: var(--active); stroke-width: 2.3; opacity: 0; transition: opacity 180ms; }
+    .node-halo { fill: none; stroke: var(--active); stroke-width: 1; opacity: 0; }
+    .node.is-active .node-ring { opacity: 1; }
+    .node.is-active .node-dot { fill: var(--active); }
+    .atlas.is-pinned .node.is-active .node-halo { opacity: .35; }
+    .node.is-related .node-ring { stroke: var(--teal); opacity: .28; }
+    .desktop-svg .node-dot { fill: #7798ab; stroke-width: 1.5; }
+    .desktop-svg .node.is-active .node-dot { fill: var(--active); }
+    .desktop-svg .node.is-related .node-ring { opacity: 0; }
+    .hit { fill: transparent; cursor: pointer; }
+    .feedback-path { stroke: var(--teal); opacity: .45; fill: none; stroke-width: 1.25; vector-effect: non-scaling-stroke; transition: opacity 200ms; }
+    .feedback-path.lit { opacity: 1; }
+    .assurance { margin: 16px 0 20px; padding: 14px 16px 12px; background: #f6f8f8; border-block: 1px solid var(--line); }
+    .assurance-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; padding-bottom: 12px; }
+    .assurance-label { margin: 0; font-size: 13px; font-weight: 550; }
+    .assurance-scope { margin: 0; color: var(--muted); font-size: 11px; }
+    .assurance-controls { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+    .measure { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) 16px; align-items: center; gap: 10px; border: 0; border-radius: 3px; background: transparent; padding: 10px 12px; text-align: left; min-width: 0; min-height: 72px; }
+    .measure + .measure { border-left: 1px solid var(--line); border-radius: 0; }
+    .measure > .measure-icon { width: 22px; height: 22px; color: #54716f; }
+    .measure-copy { min-width: 0; }
+    .measure strong { font-size: 13px; font-weight: 550; display: block; line-height: 1.45; }
+    .measure small { font-size: 11px; line-height: 1.5; color: var(--muted); display: block; margin-top: 4px; }
+    .measure > .expand-icon { display: block; position: static; width: 14px; height: 14px; transform: rotate(-90deg); color: #656e74; }
+    .measure.is-active strong { color: var(--active); }
+    .measure.is-active { background: #eaf0ef; }
+    .measure.is-active > .expand-icon { transform: rotate(0); }
+    .measure:focus-visible { outline-offset: -2px; }
+    .feedback-caption { position: absolute; top: 79%; left: 50%; transform: translate(-50%, -50%); font-size: 11px; color: var(--teal); white-space: nowrap; background: #fff; padding: 0 10px; }
+    .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #bfc9ce; margin: 27px 0 0; }
+    .era { position: relative; border: 0; background: none; padding: 19px 12px 25px; text-align: center; min-height: 122px; }
+    .era::before { content: ""; position: absolute; width: 8px; height: 8px; border: 1.5px solid #a7b4bc; background: white; border-radius: 50%; top: -5px; left: calc(50% - 5px); transition: border-color 200ms, background 200ms; }
+    .era-year { display: block; font: 12px/1.6 "SFMono-Regular", Consolas, monospace; color: var(--muted); }
+    .era-title { display: block; font-size: 12px; margin: 3px 0 5px; }
+    .era-papers { display: block; color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .era.is-related::before { border-color: var(--teal); background: #e5f1ef; }
+    .era.is-active::before { border: 2px solid var(--active); width: 11px; height: 11px; top: -6px; left: calc(50% - 6px); }
+    .era.is-active .era-year { color: var(--active); }
+    .research-history { padding: 15px 0; border-bottom: 1px solid #e3e8e9; }
+    .research-history summary { cursor: pointer; font-size: 12px; color: var(--muted); width: fit-content; min-height: 44px; padding: 12px 0; }
+    .research-history summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
+    .research-history summary span { margin-left: 12px; color: var(--muted); }
+    .detail { border-top: 1px solid #bfc9ce; border-bottom: 1px solid #e3e8e9; padding: 25px 0; display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: clamp(20px, 3.8%, 40px); min-height: 320px; height: auto; position: relative; }
+    .detail[hidden] { display: none; }
+    .detail-content { min-width: 0; padding-right: 3px; }
+    .detail-meta { margin-bottom: 12px; padding-right: 20px; }
+    .detail-evidence { min-width: 0; padding: 0 44px 0 20px; border-left: 1px solid var(--line); }
+    .evidence-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .detail-category { margin: 0 0 5px; font: 10px/1.65 "SFMono-Regular", Consolas, monospace; color: var(--muted); text-transform: uppercase; }
+    .detail-name { font: 26px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 8px; overflow-wrap: break-word; text-wrap: balance; }
+    .detail-status { margin: 0; font-size: 12px; color: var(--muted); }
+    .detail-media-kind { display: block; font-size: 10px; margin-top: 4px; color: var(--muted); }
+    .detail-figure { flex: 0 0 66px; width: 66px; height: 44px; }
+    .detail-figure .figure-expand { width: 16px; height: 16px; bottom: 1px; right: 1px; }
+    .detail-figure .figure-expand .icon { width: 12px; height: 12px; }
+    .detail-body { margin: 0 0 9px; font-size: 14px; color: #525d64; max-width: 720px; }
+    .detail-links-label { font-size: 11px; color: var(--muted); margin: 0; }
+    .detail-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 8px; min-height: 45px; }
+    .lineage-item { min-width: 0; }
+    .lineage-meta { display: block; color: var(--muted); font-size: 11px; line-height: 1.5; margin-top: -3px; }
+    .lineage-item time { color: #47575f; }
+    .detail-links a { display: inline-flex; gap: 3px; align-items: center; color: var(--teal); font-size: 12px; min-height: 44px; overflow-wrap: anywhere; }
+    .detail-links .icon { width: 13px; height: 13px; }
+    .pin, .detail-close { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 4px; background: transparent; color: #667278; }
+    .detail-close, .expand-icon { display: none; }
+    .pin[aria-pressed="true"] { color: var(--active); border-color: #e3c8c2; background: #fcf7f5; }
+    .pin .icon { transform: rotate(35deg); transition: transform 180ms; }
+    .pin[aria-pressed="true"] .icon { transform: rotate(0); }
+    .tooltip-wrap { position: absolute; right: 0; top: 22px; }
+    .tooltip { pointer-events: none; position: absolute; right: 0; top: 48px; font-size: 11px; line-height: 1.3; padding: 6px 8px; background: #252c30; color: #fff; border-radius: 3px; width: max-content; opacity: 0; transition: opacity 140ms; z-index: 5; }
+    .tooltip-wrap:focus-within .tooltip { opacity: 1; }
+    @media (hover: hover) and (pointer: fine) {
+      .pin:hover, .detail-close:hover { border-color: var(--line); color: var(--ink); }
+      .tooltip-wrap:hover .tooltip { opacity: 1; }
+      .mobile-nav nav a:hover { background: #f2f6f5; }
+      .stage:hover, .measure:hover, .era:hover { background-color: #eceff0; }
+    }
+    .stage:active, .measure:active, .era:active, .mobile-nav summary:active, .detail-close:active { background-color: #f0f6f5; }
+    .atlas.keyboard-navigation *, .atlas.keyboard-navigation *::before, .atlas.keyboard-navigation *::after { transition: none !important; }
+    .selected-work { padding: 45px 0 20px; }
+    .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 17px; }
+    h2 { font: 26px/1.2 Georgia, "Times New Roman", serif; margin: 0; font-weight: 400; }
+    .section-heading a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--muted); }
+    .section-context { font-size: 12px; color: var(--muted); }
+    .systems { padding: 34px 0 36px; }
+    .work-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; margin: 22px 0 4px; background: #f2f6f5; border: 1px solid var(--line); border-radius: 6px; }
+    .work-tab { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 54px; padding: 10px 8px; border: 1px solid transparent; border-radius: 3px; background: transparent; color: #525d64; font-size: 13px; line-height: 1.4; transition: background-color 140ms, color 140ms, border-color 140ms; }
+    .work-tab-label { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 4px; }
+    .work-tab-label span { min-width: 0; overflow-wrap: anywhere; }
+    .work-tab[aria-selected="true"] { color: var(--teal); background: #fff; border-color: #b8ceca; box-shadow: 0 1px 2px #22282b08; font-weight: 600; }
+    .work-tab:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .work-panel { min-width: 0; scroll-margin-top: 24px; }
+    .work-panel:focus-visible { outline: 2px solid var(--teal); outline-offset: 5px; }
+    .work-group-title { font: 18px/1.4 Georgia, "Times New Roman", serif; margin: 28px 0 0; }
+    @media (hover: hover) and (pointer: fine) { .work-tab:not([aria-selected="true"]):hover { background: #e5eeeb; color: var(--ink); } }
+    @media print { .work-tabs { display: none !important; } .work-panel[hidden], .work-group-title[hidden] { display: block !important; } }
+    .system { display: grid; grid-template-columns: clamp(180px, 23%, 240px) minmax(0, 1fr); column-gap: clamp(24px, 3%, 38px); padding: 25px 0; border-bottom: 1px solid #e9edee; align-items: start; }
+    .system h3 { font: 22px/1.3 Georgia, "Times New Roman", serif; margin: 5px 0 8px; text-wrap: balance; }
+    .system h3 a { text-decoration: none; }
+    .system h3 a:hover { text-decoration: underline; }
+    .system-meta { color: var(--teal); font-size: 11px; margin: 0; }
+    .system-copy { min-width: 0; }
+    .system-teaser { font-size: 14px; color: #525d64; margin: 0; max-width: 65ch; text-wrap: pretty; }
+    .system-figure { margin: 0; min-width: 0; }
+    .figure-link { position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; background: #fafcfc; border: 1px solid #e5eaea; border-radius: 3px; overflow: hidden; transition: border-color 160ms; }
+    .figure-link img { display: block; width: 100%; height: 100%; min-width: 0; object-fit: contain; }
+    .work-figure { aspect-ratio: 3 / 2; padding: 8px; }
+    .figure-expand { position: absolute; bottom: 4px; right: 4px; display: grid; place-items: center; width: 24px; height: 24px; background: #fff; color: var(--muted); border-radius: 2px; }
+    .figure-link:hover, .figure-link:focus-visible { border-color: var(--teal); }
+    .figure-link[data-figure] { cursor: zoom-in; }
+    .system-figure figcaption { color: var(--muted); font-size: 10px; margin: 7px 0 0; }
+    .work-details { margin-top: 4px; }
+    .work-details > summary { display: flex; align-items: center; gap: 7px; list-style: none; width: fit-content; min-height: 44px; cursor: pointer; color: var(--teal); font-size: 12px; }
+    .work-details > summary:hover { color: var(--ink); }
+    .work-body { padding: 8px 0 0; max-width: 70ch; }
+    .figure-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+    .system-scope { font-size: 14px; margin: 0 0 8px; color: #525d64; }
+    .system.is-related h3 a { color: var(--teal); }
+    .system-research, .detail-return, .detail-work { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; color: var(--teal); font-size: 12px; }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+    .system-research { margin-top: 6px; }
+    .system { scroll-margin-top: 24px; }
+    .system:focus { outline: 2px solid var(--teal); outline-offset: 5px; }
+    .artifact-kind { color: var(--muted); }
+    .publication { display: grid; grid-template-columns: 54px minmax(0, 1fr) 132px; gap: 18px; padding: 21px 0; border-bottom: 1px solid #e9edee; position: relative; transition: background-color 220ms; align-items: start; }
+    .publication > time { grid-column: 1; grid-row: 1; }
+    .publication-copy { grid-column: 2; grid-row: 1; min-width: 0; }
+    .publication-figure { grid-column: 3; grid-row: 1; aspect-ratio: 3 / 2; padding: 5px; }
+    .publication.is-related { background: #fafcfb; }
+    .publication time { font: 12px/1.7 "SFMono-Regular", Consolas, monospace; color: var(--muted); }
+    .publication h3 { margin: 0 0 5px; font-size: 15px; line-height: 1.5; font-weight: 550; text-wrap: pretty; }
+    .publication h3 a { text-decoration: none; }
+    .publication h3 a:hover { text-decoration: underline; }
+    .publication .venue { font-size: 11px; color: var(--teal); margin: 0 0 7px; }
+    .publication-overview { max-width: 72ch; margin: 0; font-size: 13px; line-height: 1.65; color: #525d64; text-wrap: pretty; }
+    .earlier-publications { border-bottom: 1px solid var(--line); }
+    .earlier-publications > summary { font-size: 14px; min-height: 64px; }
+    footer { display: flex; gap: 15px; justify-content: space-between; padding: 29px 0 35px; color: var(--muted); font-size: 11px; }
+    footer a { display: inline-flex; align-items: center; min-height: 44px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .skip-link { position: absolute; left: 20px; top: -60px; padding: 8px 14px; background: white; z-index: 20; }
+    .skip-link:focus { top: 12px; }
+    html.figure-viewer-open { overflow: hidden; }
+    .figure-viewer-open body { position: fixed; top: var(--viewer-scroll-top); left: var(--viewer-scroll-left); width: 100%; }
+    .figure-viewer { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 24px; border: 0; background: transparent; color: var(--ink); }
+    .figure-viewer:not([open]) { display: none; }
+    .figure-viewer[open] { display: grid; place-items: center; }
+    .figure-viewer::backdrop { background: #182528c9; }
+    .viewer-shell { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; width: min(1200px, 100%); height: min(900px, 100%); min-width: 0; min-height: 0; background: #fcfdfd; border-radius: 6px; overflow: hidden; box-shadow: 0 16px 64px #111b2430; }
+    .viewer-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
+    .viewer-heading { min-width: 0; }
+    .viewer-kind { margin: 0 0 2px; color: var(--muted); font-size: 11px; }
+    .viewer-title { margin: 0; font: 400 24px/1.25 Georgia, "Times New Roman", serif; overflow-wrap: anywhere; }
+    .viewer-tools { display: flex; flex: 0 0 auto; gap: 4px; }
+    .viewer-tool { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid transparent; border-radius: 4px; background: transparent; }
+    .viewer-tool:hover, .viewer-tool:focus-visible { background: #eaf1f0; }
+    .viewer-tool .icon { width: 20px; height: 20px; }
+    .viewer-tool:disabled { cursor: default; opacity: .4; }
+    .viewer-stage { display: flex; align-items: safe center; justify-content: safe center; min-width: 0; min-height: 0; overflow: auto; overscroll-behavior: contain; background: #fff; }
+    .viewer-stage:focus-visible { outline: 2px solid var(--teal); outline-offset: -3px; }
+    .viewer-stage img { display: block; flex: 0 0 auto; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
+    .figure-viewer.is-zoomed .viewer-stage img { width: var(--image-width); max-width: none; max-height: none; }
+    .viewer-caption { padding: 14px 24px; border-top: 1px solid var(--line); max-height: 25%; overflow: auto; font-size: 13px; color: var(--muted); }
+    .viewer-caption p { max-width: 85ch; margin: 0; }
+    .viewer-caption a { display: inline-flex; align-items: center; min-height: 44px; color: var(--teal); }
+    .viewer-error { padding: 24px; color: var(--muted); }
+    @media (max-width: 900px) { .stage-title { font-size: 14px; } .era { padding-inline: 6px; } h1 { font-size: 33px; } .measure { grid-template-columns: minmax(0, 1fr) 14px; padding: 10px; gap: 6px; } .measure > .measure-icon { grid-column: 1 / -1; } .measure > .expand-icon { grid-column: 2; grid-row: 2; } }
+    @media (min-width: 641px) and (max-width: 900px) { .desktop-svg .weave-glyph { transform-box: fill-box; transform-origin: center; transform: scale(1.2); } }
+    @media (max-width: 640px) {
+      .page { width: calc(100% - 40px); }
+      .site-header { min-height: 85px; gap: 18px; }
+      .identity { font-size: 25px; white-space: nowrap; }
+      .site-header > nav { display: none; }
+      .mobile-nav { display: block; }
+      .profile { grid-template-columns: minmax(0, 1fr) 104px; gap: 18px; padding: 25px 0; align-items: start; }
+      .profile-copy { display: contents; }
+      .profile h1 { grid-column: 1; margin: 0; align-self: end; }
+      .profile-role { grid-column: 1; margin: -7px 0 0; font-size: 12px; }
+      .portrait { grid-column: 2; grid-row: 1 / 3; width: 104px; height: 104px; }
+      .profile-bio, .profile-background { grid-column: 1 / -1; margin: 0; }
+      .profile-bio { font-size: 16px; }
+      .profile-background { font-size: 12px; margin-top: -8px; }
+      .profile-links { grid-column: 1 / -1; margin-top: -7px; }
+      .career { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-top: 8px; }
+      .career-disclosure > summary { font-size: 12px; gap: 8px; }
+      .career-disclosure > summary span { font-size: 11px; }
+      .intro { padding: 24px 0 18px; }
+      .research-title { font-size: 27px; }
+      h1 { font-size: 31px; line-height: 1.17; max-width: 360px; }
+      .intro p:last-child { font-size: 14px; line-height: 1.6; }
+      .lifecycle { position: relative; padding: 0; margin-top: 3px; }
+      .stage-controls { display: flex; flex-direction: column; width: 100%; padding: 0; pointer-events: none; }
+      .stage { width: 100%; min-height: 56px; padding: 12px 26px 12px 44px; text-align: left; pointer-events: auto; scroll-margin-top: 16px; }
+      .stage::before { content: ""; position: absolute; top: 0; left: 44px; right: 0; border-top: 1px solid var(--line); }
+      .stage-title { font-size: 16px; }
+      .stage::after { display: none; }
+      .expand-icon { display: block; position: absolute; right: 3px; top: 20px; width: 16px; height: 16px; transition: transform 160ms; }
+      [aria-expanded="true"] > .expand-icon { transform: rotate(180deg); }
+      .plot { position: absolute; top: 0; left: 0; width: 32px; height: var(--mobile-plot-height, 280px); aspect-ratio: auto; margin: 0; pointer-events: none; }
+      .desktop-svg { display: none !important; }
+      .plot .mobile-svg { display: block !important; width: 100%; height: 100%; }
+      .mobile-svg .feedback-path { opacity: .2; }
+      .mobile-svg .node.is-related .node-ring { opacity: 0; }
+      .mobile-svg .node-dot { fill: #fff; stroke: #7494a1; stroke-width: 1.2; }
+      .mobile-svg .node.is-active .node-dot { fill: var(--active); stroke: #fff; }
+      .mobile-svg .strand { stroke-width: .75; }
+      .mobile-svg .strand.lit { opacity: .38; stroke-width: .85; }
+      .concept-label { display: none; }
+      .assurance { margin-top: 18px; padding: 14px 12px 4px; }
+      .assurance-heading { display: block; padding-bottom: 8px; }
+      .assurance-scope { margin-top: 3px; }
+      .assurance-controls { position: relative; grid-template-columns: minmax(0, 1fr); gap: 0; }
+      .measure { grid-template-columns: 24px minmax(0, 1fr) 16px; gap: 10px; padding: 12px 0; min-height: 72px; scroll-margin-top: 16px; border-top: 1px solid var(--line); }
+      .measure + .measure { border-left: 0; }
+      .measure > .measure-icon { grid-column: 1; }
+      .measure > .expand-icon { grid-column: 3; grid-row: 1; transform: rotate(0); }
+      .measure[aria-expanded="true"] > .expand-icon { transform: rotate(180deg); }
+      .measure strong { font-size: 13px; }
+      .feedback-caption { display: none; }
+      .timeline { display: flex; flex-direction: column; margin-top: 4px; border: 0; gap: 0; }
+      .era { border-top: 1px solid #bec8cc; padding: 14px 28px 14px 0; text-align: left; min-height: 100px; scroll-margin-top: 16px; }
+      .era::before { left: 0; }
+      .era.is-active::before { left: 0; }
+      .era-year { font-size: 11px; }
+      .era-title { font-size: 14px; line-height: 1.4; }
+      .era-papers { font-size: 12px; }
+      .detail { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 16px; padding: 4px 0 20px; margin-bottom: 8px; min-height: 0; height: auto; width: 100%; border-top: 0; border-bottom: 0; background: #fff; z-index: 4; pointer-events: auto; }
+      .assurance-controls > .detail { background: transparent; }
+      .stage-controls > .detail { width: calc(100% - 44px); margin-left: 44px; }
+      .detail-meta { padding: 0 34px 0 0; margin-bottom: 10px; }
+      .detail-name { font-size: 23px; margin-bottom: 6px; text-wrap: pretty; }
+      .detail-category { display: none; }
+      .detail-figure { flex: 0 0 auto; width: 100px; height: auto; aspect-ratio: 3 / 2; }
+      .detail-content { grid-column: 1; grid-row: 1; overflow: visible; overscroll-behavior: auto; padding: 0; }
+      .detail-evidence { border: 0; padding: 0; overflow: visible; }
+      .evidence-heading { flex-direction: row-reverse; }
+      .atlas[data-selected="data"] .evidence-heading { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+      .atlas[data-selected="data"] .detail-figure { width: 100%; aspect-ratio: 2.4; border: 0; background: #fff; }
+      .atlas[data-selected="data"] #detail-image { display: none; }
+      .atlas[data-selected="data"] .data-vignette { display: block; width: 100%; height: 100%; }
+      .tooltip-wrap { top: 0; right: -4px; }
+      .pin, .tooltip { display: none; }
+      .detail-close { display: grid; }
+      .detail-body { font-size: 15px; line-height: 1.65; }
+      .detail-links { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .detail-links a { font-size: 14px; }
+      .lineage-meta { font-size: 12px; margin-top: -3px; }
+      .selected-work { padding-top: 34px; }
+      .systems { padding-top: 34px; }
+      .systems .section-heading { display: block; }
+      .work-tabs { gap: 3px; padding: 3px; margin: 18px 0 4px; }
+      .work-tab { min-height: 68px; padding: 8px 3px; font-size: 12px; }
+      .work-tab-label { display: grid; gap: 2px; }
+      .section-context { display: block; margin-top: 8px; }
+      .system { grid-template-columns: 112px minmax(0, 1fr); gap: 6px 16px; padding: 23px 0 15px; }
+      .system-copy { display: contents; }
+      .system-figure { grid-column: 1; grid-row: 1 / span 3; }
+      .system-meta { grid-column: 2; grid-row: 1; font-size: 10px; }
+      .system h3 { grid-column: 2; grid-row: 2; font-size: 18px; margin: 0; text-wrap: pretty; }
+      .system-teaser { grid-column: 2; grid-row: 3; font-size: 14px; }
+      .work-details { grid-column: 1 / -1; grid-row: 4; margin-top: 4px; }
+      .work-details > summary { font-size: 13px; }
+      .work-figure { padding: 3px; }
+      .figure-expand { width: 20px; height: 20px; bottom: 2px; right: 2px; }
+      .figure-expand .icon { width: 13px; height: 13px; }
+      .system-figure figcaption { font-size: 10px; line-height: 1.45; }
+      .system-scope { font-size: 16px; }
+      h2 { font-size: 23px; }
+      .publication { grid-template-columns: 44px minmax(0, 1fr); padding-right: 0; }
+      .publication.has-figure { grid-template-columns: 88px minmax(0, 1fr); gap: 3px 16px; }
+      .publication.has-figure .publication-figure { grid-column: 1; grid-row: 1 / span 2; }
+      .publication.has-figure time { grid-column: 2; grid-row: 1; }
+      .publication.has-figure > div { grid-column: 2; grid-row: 2; min-width: 0; }
+      .publication.has-figure .publication-copy { display: contents; }
+      .publication.has-figure .publication-copy h3 { grid-column: 2; grid-row: 2; }
+      .publication.has-figure .publication-copy .venue { grid-column: 2; grid-row: 3; }
+      .publication.has-figure .publication-overview { grid-column: 1 / -1; margin-top: 5px; }
+      .publication-overview { font-size: 14px; }
+      .figure-viewer { padding: 0; }
+      .viewer-shell { height: 100%; border-radius: 0; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+      .viewer-header { align-items: start; padding: 14px 12px 14px 20px; gap: 8px; }
+      .viewer-title { font-size: 20px; }
+      .viewer-kind { font-size: 10px; }
+      .viewer-caption { padding: 12px 20px; max-height: 28vh; }
+      .publication h3 { font-size: 16px; }
+      .publication h3 a { display: inline-flex; align-items: center; min-height: 44px; }
+      .section-heading { align-items: start; flex-wrap: wrap; gap: 10px; }
+      footer { align-items: start; flex-direction: column; gap: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <!--
+    Lucide interface and diagram icons. ISC License.
+    Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as
+    part of Feather (MIT). All other copyright (c) for Lucide are held by
+    Lucide Contributors 2022.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></symbol>
+    <symbol id="icon-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6m-3-3h6"/></symbol>
+    <symbol id="icon-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M8 11h6"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="icon-scan-search" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="m16 16-1.9-1.9"/></symbol>
+    <symbol id="icon-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M6 12H2m10-6V2m0 20v-4"/></symbol>
+    <symbol id="icon-shield-alert" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1zm-8-5v4m0 4h.01"/></symbol>
+    <symbol id="icon-file" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2zM14 2v5a1 1 0 0 0 1 1h5M10 9H8m8 4H8m8 4H8"/></symbol>
+    <symbol id="icon-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+    <symbol id="icon-message" viewBox="0 0 24 24"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="icon-network" viewBox="0 0 24 24"><rect width="6" height="6" x="16" y="16" rx="1"/><rect width="6" height="6" x="2" y="16" rx="1"/><rect width="6" height="6" x="9" y="2" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3m-7-4V8"/></symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+  </svg>
+  <a class="skip-link" href="#systems">Skip to current work</a>
+  <div class="page">
+    <header class="site-header">
+      <a class="identity" href="#profile-name">Yi Zeng</a>
+      <nav aria-label="Main navigation">
+        <a href="#systems" class="desktop-link">Work</a>
+        <a href="#selected-work">Publications</a>
+        <a href="press.html">Press</a>
+        <a class="external desktop-link" href="https://scholar.google.com/citations?user=Gr4FG08AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Scholar<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+        <a class="desktop-link" href="https://www.linkedin.com/in/yizeng623/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </nav>
+      <details class="mobile-nav">
+        <summary aria-label="Navigation" title="Navigation"><svg class="icon" aria-hidden="true"><use href="#icon-menu"/></svg></summary>
+        <nav aria-label="Mobile navigation">
+          <a href="#systems">Work</a><a href="#selected-work">Publications</a><a href="press.html">Press</a>
+          <a href="https://scholar.google.com/citations?user=Gr4FG08AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+          <a href="https://www.linkedin.com/in/yizeng623/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:yizeng0623@gmail.com">Email</a>
+        </nav>
+      </details>
+    </header>
+    <main>
+      <section class="profile" aria-labelledby="profile-name">
+        <div class="profile-copy">
+          <h1 id="profile-name">Yi Zeng</h1>
+          <p class="profile-role">Safety Research Lead, Foundation Model &middot; TikTok</p>
+          <p class="profile-bio">At TikTok, I set the direction for foundation-model safety research and guide researchers from ideas to experiments. I work with engineering and policy partners on shared training and evaluation systems.</p>
+          <p class="profile-background">Ph.D. in Computer Engineering, Virginia Tech, advised by <a href="https://scholar.google.com/citations?user=JCrug-YAAAAJ" target="_blank" rel="noopener noreferrer">Ruoxi Jia</a>.</p>
+          <div class="profile-links"><a href="#systems">Current work</a><a href="#research">Research map</a><a href="press.html">Press &amp; recognition</a><a href="mailto:yizeng0623@gmail.com">Email</a></div>
+        </div>
+        <img class="portrait" src="assets/yi-zeng-portrait.jpg" alt="Yi Zeng with a dog" width="156" height="156" decoding="async">
+      </section>
+      <details class="career-disclosure" id="experience">
+        <summary>Experience at TikTok <span>2025&ndash;present</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <div class="career" aria-label="TikTok work history">
+          <div class="career-item current"><time>Jul. 2026&ndash;present</time><strong>Safety Research Lead, Foundation Model</strong><span>Safety training &amp; evaluation, including agents and red-teaming</span></div>
+          <div class="career-item"><time>Jan. 2026&ndash;Jul. 2026</time><strong>Senior Staff Research Scientist</strong><span>Platform-wide data flywheel for model training &amp; evaluation</span></div>
+          <div class="career-item"><time>May 2025&ndash;Jan. 2026</time><strong>Staff Research Scientist</strong><span>Alignment data &amp; deliberative alignment across regional policies</span></div>
+        </div>
+      </details>
+      <section id="research" aria-labelledby="research-title">
+        <div class="intro">
+          <p class="eyebrow">Research perspective</p>
+          <h2 class="research-title" id="research-title">Safety as a learned capability</h2>
+          <p>Our <a href="#paper-finetuning">earlier work</a> showed that fine-tuning can undo alignment. I study how safety is learned, shaped by post-training, and retained as models adapt.</p>
+        </div>
+        <div class="atlas" id="atlas" hidden>
+          <div class="lifecycle" aria-label="Model lifecycle research">
+            <div class="stage-controls" role="group" aria-label="Research directions">
+              <button class="stage" data-select="data" aria-controls="research-detail" aria-pressed="false"><span class="stage-title">Data</span><span class="stage-subtitle">Ground in evidence</span></button>
+              <button class="stage" data-select="pretraining" aria-controls="research-detail" aria-pressed="false"><span class="stage-title">Pretraining</span><span class="stage-subtitle">Learn across tasks</span></button>
+              <button class="stage" data-select="posttraining" aria-controls="research-detail" aria-pressed="false"><span class="stage-title">Post-training</span><span class="stage-subtitle">Shape what transfers</span></button>
+              <button class="stage" data-select="adaptation" aria-controls="research-detail" aria-pressed="false"><span class="stage-title">Adaptation</span><span class="stage-subtitle">Retain through change</span></button>
+              <button class="stage" data-select="deployment" aria-controls="research-detail" aria-pressed="false"><span class="stage-title">Deployment</span><span class="stage-subtitle">Observe real-world risk</span></button>
+            </div>
+            <div class="plot">
+              <svg class="desktop-svg" viewBox="0 0 1100 252" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs><marker id="return-arrow" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" refX="6" refY="4" orient="auto"><path d="M2 1.5 6 4 2 6.5" fill="none" stroke="#167b77" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+                <g id="desktop-stage-bands"></g>
+                <g id="desktop-guides"></g>
+                <g id="desktop-strands"></g>
+                <g id="desktop-junctions"></g>
+                <g id="desktop-glyphs"></g>
+                <g id="desktop-packets"></g>
+                <path class="feedback-path" d="M1044 177C1044 201 976 201 896 201H104Q78 201 78 175V171" marker-end="url(#return-arrow)"/>
+                <g id="desktop-nodes"></g>
+              </svg>
+              <svg class="mobile-svg" viewBox="0 0 32 380" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <g id="mobile-strands"></g><g id="mobile-nodes"></g>
+                <path class="feedback-path" d="M16 342C30 342 30 322 30 282V98Q30 38 16 38"/>
+              </svg>
+              <span class="feedback-caption">Evidence informs the next iteration</span>
+              <span class="concept-label">Conceptual view</span>
+            </div>
+            <div class="assurance">
+              <div class="assurance-heading"><h3 class="assurance-label" id="assurance-label">Evaluation &amp; preparedness</h3><p class="assurance-scope" id="assurance-scope">Across all model stages</p></div>
+              <div class="assurance-controls" role="group" aria-labelledby="assurance-label" aria-describedby="assurance-scope">
+                <button class="measure" data-select="measurement" aria-controls="research-detail" aria-pressed="false"><svg class="icon measure-icon" aria-hidden="true"><use href="#icon-scan-search"/></svg><span class="measure-copy"><strong>Pan-safety evaluation</strong><small>Understanding, behavior &amp; robustness</small></span></button>
+                <button class="measure" data-select="redteaming" aria-controls="research-detail" aria-pressed="false"><svg class="icon measure-icon" aria-hidden="true"><use href="#icon-crosshair"/></svg><span class="measure-copy"><strong>Red-teaming</strong><small>Adversarial failure discovery</small></span></button>
+                <button class="measure" data-select="preparedness" aria-controls="research-detail" aria-pressed="false"><svg class="icon measure-icon" aria-hidden="true"><use href="#icon-shield-alert"/></svg><span class="measure-copy"><strong>Frontier-risk preparedness</strong><small>Misuse &amp; agentic risk</small></span></button>
+              </div>
+            </div>
+          </div>
+          <span id="detail-home" hidden></span>
+          <section class="detail" id="research-detail" aria-label="Selected research">
+            <div class="detail-content" id="detail-content" tabindex="0" role="region" aria-labelledby="detail-name">
+              <div class="detail-meta"><p class="detail-category" id="detail-category"></p><h2 class="detail-name" id="detail-name"></h2><p class="detail-status" id="detail-status"></p></div>
+              <p class="detail-body" id="detail-body"></p>
+              <div class="detail-actions"><a class="detail-work" id="detail-work" hidden>Current work<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a><a class="detail-return" id="detail-return" hidden>Back to current work</a></div>
+            </div>
+            <aside class="detail-evidence" aria-label="Related research and illustration">
+              <div class="evidence-heading"><p class="detail-links-label">Related research</p><a class="figure-link detail-figure" id="detail-figure" target="_blank" rel="noopener noreferrer" hidden><img id="detail-image" alt="" width="180" height="120" decoding="async"><svg class="data-vignette" id="data-vignette" viewBox="0 0 500 208" aria-hidden="true"></svg><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a></div>
+              <span class="sr-only" id="detail-media-kind" hidden></span>
+              <div class="detail-links" id="detail-links"></div>
+            </aside>
+            <div class="tooltip-wrap"><button id="pin" class="pin" aria-label="Pin this selection" aria-pressed="false" aria-describedby="pin-tooltip"><svg class="icon" aria-hidden="true"><use href="#icon-pin"/></svg></button><span class="tooltip" id="pin-tooltip" role="tooltip">Pin this selection</span><button id="detail-close" class="detail-close" aria-label="Collapse research details" title="Collapse research details"><svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#icon-chevron"/></svg></button></div>
+          </section>
+          <details class="research-history">
+            <summary>Research over time <span>2021&ndash;2026</span></summary>
+            <div class="timeline" role="group" aria-label="Research over time">
+            <button class="era" data-select="era2023" aria-controls="research-detail" aria-pressed="false"><span class="era-year">2021&ndash;2023</span><span class="era-title">Data integrity</span><span class="era-papers">Poisoning / backdoors<br>Robust data selection</span></button>
+            <button class="era" data-select="era2024" aria-controls="research-detail" aria-pressed="false"><span class="era-year">2024</span><span class="era-title">Diagnosing safety failures</span><span class="era-papers">Fine-tuning safety / Persuasion<br>BEEAR</span></button>
+            <button class="era" data-select="era2025" aria-controls="research-detail" aria-pressed="false"><span class="era-year">2025</span><span class="era-title">Evaluation to production</span><span class="era-papers">Safety benchmarks / red-teaming<br>Global model alignment</span></button>
+            <button class="era" data-select="era2026" aria-controls="research-detail" aria-pressed="false"><span class="era-year">2026</span><span class="era-title">Safety across training</span><span class="era-papers">Post-training geometry<br>Shared data &amp; evaluation</span></button>
+            </div>
+          </details>
+          <p class="sr-only" id="announcement" aria-live="polite" aria-atomic="true"></p>
+        </div>
+      </section>
+      <section class="systems" id="systems" aria-labelledby="systems-heading">
+        <div class="section-heading"><h2 id="systems-heading">Research &amp; systems at TikTok</h2><span class="section-context">2025&ndash;present</span></div>
+        <div class="work-tabs" id="work-tabs" role="tablist" aria-label="TikTok research areas" hidden>
+          <button type="button" class="work-tab" id="work-tab-foundations" role="tab" data-work-tab="foundations" aria-controls="work-foundations" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Data</span> <span>&amp; Pretraining</span></span></button>
+          <button type="button" class="work-tab" id="work-tab-adaptation" role="tab" data-work-tab="adaptation" aria-controls="work-adaptation" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Post-training</span> <span>&amp; Adaptation</span></span></button>
+          <button type="button" class="work-tab" id="work-tab-evaluation" role="tab" data-work-tab="evaluation" aria-controls="work-evaluation" aria-selected="false" tabindex="-1"><span class="work-tab-label"><span>Evaluation</span> <span>&amp; Deployment</span></span></button>
+        </div>
+        <div id="system-list">
+          <section class="work-panel" id="work-foundations" data-work-group="foundations" aria-labelledby="work-title-foundations"><h3 class="work-group-title" id="work-title-foundations">Data &amp; Pretraining</h3>
+          <article class="system" id="system-data" data-system="data" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/platform-data-flywheel-concept.html" data-figure="data" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: TikTok data flywheel (Concept illustration)" title="Enlarge figure"><img src="assets/work/platform-data-flywheel-concept-thumb.jpg" srcset="assets/work/platform-data-flywheel-concept-thumb.jpg 640w, assets/work/platform-data-flywheel-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="Platform data is organized and curated for model training and evaluation; capability gaps guide the next data iteration."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Platform-wide data infrastructure</p><h3><a href="#system-data">TikTok data flywheel</a></h3><p class="system-teaser">Architected TikTok&#39;s data flywheel and lead its development with research and engineering partners.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">The flywheel connects platform-wide data with foundation-model training and evaluation. Shared infrastructure supports data discovery, curation, and coverage analysis for both general capabilities and safety; evaluation gaps guide the next round of data development.</p><p class="figure-note">A platform-wide data flywheel supporting general model capabilities and safety. Concept illustration, without specific data sources, implementation details, or measured results.</p><a class="system-research" href="#research-data" data-open-research="data" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          <article class="system" id="system-pretraining" data-system="pretraining" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/safety-learning-concept.html" data-figure="pretraining" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Safety capability pretraining (Concept illustration)" title="Enlarge figure"><img src="assets/work/safety-learning-concept-thumb.jpg" srcset="assets/work/safety-learning-concept-thumb.jpg 640w, assets/work/safety-learning-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="General knowledge and safety reasoning are considered together in a model-learning research question."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Unpublished research</p><h3><a href="#system-pretraining">Safety capability pretraining</a></h3><p class="system-teaser">Proposed the safety-pretraining direction and led its development with research collaborators.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">I study how safety understanding can develop alongside general knowledge. This research treats pretraining as a place to learn safety capabilities, and evaluation as a way to distinguish those capabilities from refusal alone.</p><p class="figure-note">The research question of learning safety alongside knowledge. This is not a training recipe or an experimental result.</p><a class="system-research" href="#research-pretraining" data-open-research="pretraining" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          </section>
+          <section class="work-panel" id="work-adaptation" data-work-group="adaptation" aria-labelledby="work-title-adaptation"><h3 class="work-group-title" id="work-title-adaptation">Post-training &amp; Adaptation</h3>
+          <article class="system" id="system-posttraining" data-system="posttraining" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/posttraining-geometry-concept.html" data-figure="posttraining" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: A dial for post-training (Concept illustration)" title="Enlarge figure"><img src="assets/work/posttraining-geometry-concept-thumb.jpg" srcset="assets/work/posttraining-geometry-concept-thumb.jpg 640w, assets/work/posttraining-geometry-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="An alpha-divergence dial illustrates the choice between mode-seeking and mode-covering in post-training."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / NeurIPS, accepted</p><h3><a href="#system-posttraining">A dial for post-training</a></h3><p class="system-teaser">Co-developed an α-divergence dial for mode-seeking and mode-covering in post-training.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">I co-developed an α-divergence dial for post-training: choose how strongly learning concentrates on a few high-reward responses or covers a broader range. Tests across reasoning, agentic tasks, and safety show that the useful setting depends on the task and reference model.</p><p class="figure-note">A conceptual view of post-training geometry, not an original paper figure or a universally optimal setting. <a href="https://neurips.cc/virtual/2026/poster/150744" target="_blank" rel="noopener noreferrer">Conference listing</a></p><a class="system-research" href="#research-posttraining" data-open-research="posttraining" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          <article class="system" id="system-adaptation" data-system="adaptation" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/capability-retention-concept.html" data-figure="adaptation" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Capability retention during adaptation (Concept illustration)" title="Enlarge figure"><img src="assets/work/capability-retention-concept-thumb.jpg" srcset="assets/work/capability-retention-concept-thumb.jpg 640w, assets/work/capability-retention-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="A model encounters new tasks, raising the question of which learned capabilities remain after adaptation."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Unpublished research</p><h3><a href="#system-adaptation">Capability retention during adaptation</a></h3><p class="system-teaser">Proposed and co-developed a training-time method for capability retention.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">Earlier work on fine-tuning safety raised a practical question: how can a model learn new tasks without losing useful behavior? I proposed the method, co-developed it with a research intern, and directed the experimental design.</p><p class="figure-note">The question of capability retention during adaptation. No method implementation or measured outcome is depicted.</p><a class="system-research" href="#research-adaptation" data-open-research="adaptation" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          </section>
+          <section class="work-panel" id="work-evaluation" data-work-group="evaluation" aria-labelledby="work-title-evaluation"><h3 class="work-group-title" id="work-title-evaluation">Evaluation &amp; Deployment</h3>
+          <article class="system" id="system-measurement" data-system="measurement" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/safety-dimensions-concept.html" data-figure="measurement" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Pan-safety capability evaluation (Concept illustration)" title="Enlarge figure"><img src="assets/work/safety-dimensions-concept-thumb.jpg" srcset="assets/work/safety-dimensions-concept-thumb.jpg 640w, assets/work/safety-dimensions-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="Risk understanding, safe responses, and safe actions are connected, with robustness across contexts spanning all three."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Evaluation research</p><h3><a href="#system-measurement">Pan-safety capability evaluation</a></h3><p class="system-teaser">Designed evaluations spanning risk understanding, safe responses, and agent behavior.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">Refusal scores capture only part of safety. Pan-safety evaluation asks how risk understanding, generation, and agent behavior relate across training, with robustness and evaluation quality treated as part of the same question.</p><p class="figure-note">Connected research dimensions, not model scores, institutional comparisons, or an exhaustive safety taxonomy.</p><a class="system-research" href="#research-measurement" data-open-research="measurement" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          <article class="system" id="system-redteaming" data-system="redteaming" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/red-teaming.html" data-figure="redteaming" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Red-teaming models &amp; evaluation (Concept illustration)" title="Enlarge figure"><img src="assets/work/red-teaming-thumb.jpg" srcset="assets/work/red-teaming-thumb.jpg 640w, assets/work/red-teaming.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="Attack proposals are tested on a model, independently checked, and refined through feedback."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Adversarial evaluation</p><h3><a href="#system-redteaming">Red-teaming models &amp; evaluation</a></h3><p class="system-teaser">My red-teaming work combines attack-model development with evaluation of model failures.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">I develop and evaluate red-teaming models to study where safeguards fail. Reliable failure discovery also requires examining the test itself: what it probes, what the response shows, and what the scoring can establish.</p><p class="figure-note">A functional red-teaming loop. The illustration does not encode attack results.</p><a class="system-research" href="#research-redteaming" data-open-research="redteaming" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          <article class="system" id="system-preparedness" data-system="preparedness" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/risk-evaluation-concept.html" data-figure="preparedness" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Preparedness &amp; agentic evaluation (Concept illustration)" title="Enlarge figure"><img src="assets/work/risk-evaluation-concept-thumb.jpg" srcset="assets/work/risk-evaluation-concept-thumb.jpg 640w, assets/work/risk-evaluation-concept.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="Misuse, influence, and agent scenarios call for distinct response, behavior, and action evaluations."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2026 / Evaluation infrastructure</p><h3><a href="#system-preparedness">Preparedness &amp; agentic evaluation</a></h3><p class="system-teaser">Built model-evaluation and risk-review workflows with research, policy, and legal colleagues.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">My work spans misuse, persuasion-related behavior, political bias, and agentic evaluation. Each asks a different measurement question; a model response, an action in an environment, and an effect on a person are not interchangeable evidence.</p><p class="figure-note">Distinct measurement questions inform risk review. The illustration names no data sources and reports no results.</p><a class="system-research" href="#research-preparedness" data-open-research="preparedness" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          <article class="system" id="system-deployment" data-system="deployment" tabindex="-1">
+            <figure class="system-figure"><a class="figure-link work-figure" href="figures/deployment.html" data-figure="deployment" target="_blank" rel="noopener noreferrer" aria-label="Enlarge figure: Global model safety alignment (Concept illustration)" title="Enlarge figure"><img src="assets/work/deployment-thumb.jpg" srcset="assets/work/deployment-thumb.jpg 640w, assets/work/deployment.jpg 1536w" sizes="(max-width: 640px) 112px, 240px" width="1536" height="1024" loading="lazy" decoding="async" alt="Safety requirements guide training data, model alignment, and release evidence, with safety and capability checks."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a><figcaption>Concept illustration</figcaption></figure>
+            <div class="system-copy"><p class="system-meta">2025 / Production alignment</p><h3><a href="#system-deployment">Global model safety alignment</a></h3><p class="system-teaser">Technical lead for global LLM/VLM safety alignment across training, policy, and evaluation.</p>
+              <details class="work-details"><summary>Details<svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><div class="work-body"><p class="system-scope">I connected regional safety requirements to alignment data and model evaluation, including work on bias mitigation and deliberative alignment. That production experience shaped my current focus on how safety is learned throughout training.</p><p class="figure-note">The alignment workflow, not a claim of universal safety or legal compliance.</p><a class="system-research" href="#research-deployment" data-open-research="deployment" hidden>Related research<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a></div></details>
+            </div>
+          </article>
+          </section></div>
+      </section>
+      <section class="selected-work" id="selected-work" aria-labelledby="work-heading">
+        <div class="section-heading"><h2 id="work-heading">Selected publications</h2><a href="https://scholar.google.com/citations?user=Gr4FG08AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></div>
+        <div id="publication-list">
+          <article class="publication has-figure" id="paper-mcpo" data-paper="mcpo">
+            <a class="figure-link publication-figure" href="https://neurips.cc/virtual/2026/poster/150744" target="_blank" rel="noopener noreferrer" aria-label="Open publication: Mode-Controlled Policy Optimization: A Geometry-Aware Recipe for LLM Post-Training (Concept illustration)" title="Open publication"><img src="assets/work/posttraining-geometry-concept-thumb.jpg" srcset="assets/work/posttraining-geometry-concept-thumb.jpg 640w, assets/work/posttraining-geometry-concept.jpg 1536w" sizes="(max-width: 640px) 88px, 132px" width="1536" height="1024" loading="lazy" decoding="async" alt="An alpha-divergence dial illustrates the choice between mode-seeking and mode-covering in post-training."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
+            <time datetime="2026">2026</time>
+            <div class="publication-copy"><h3><a href="https://neurips.cc/virtual/2026/poster/150744" target="_blank" rel="noopener noreferrer">Mode-Controlled Policy Optimization: A Geometry-Aware Recipe for LLM Post-Training</a></h3><p class="venue">NeurIPS / Accepted <span class="artifact-kind">/ Conference listing</span></p><p class="publication-overview">An α-divergence dial controls whether post-training concentrates on a few high-reward responses or preserves broader support. The useful setting depends on the task and reference model.</p></div>
+          </article>
+          <article class="publication has-figure" id="paper-speceval" data-paper="speceval">
+            <a class="figure-link publication-figure" href="https://arxiv.org/abs/2509.02464" target="_blank" rel="noopener noreferrer" aria-label="Open publication: SpecEval: Evaluating Model Adherence to Behavior Specifications (Paper figure / SpecEval)" title="Open publication"><img src="assets/papers/speceval-thumb.jpg" srcset="assets/papers/speceval-thumb.jpg 640w, assets/papers/speceval.png 2033w" sizes="(max-width: 640px) 88px, 132px" width="2033" height="881" loading="lazy" decoding="async" alt="SpecEval generates specification-specific judges and test cases, followed by inspection and curation."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
+            <time datetime="2026">2026</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2509.02464" target="_blank" rel="noopener noreferrer">SpecEval: Evaluating Model Adherence to Behavior Specifications</a></h3><p class="venue">TMLR</p><p class="publication-overview">Do models follow their own developers&#39; rules? An automated audit compares published specifications, model responses, and the developers&#39; own models as judges, revealing gaps between stated and observed behavior.</p></div>
+          </article>
+          <article class="publication has-figure" id="paper-autored" data-paper="autored">
+            <a class="figure-link publication-figure" href="https://papers.neurips.cc/paper_files/paper/2025/hash/f810a445357d94070669d970a95fc5d8-Abstract-Conference.html" target="_blank" rel="noopener noreferrer" aria-label="Open publication: AutoRedTeamer (Paper figure / AutoRedTeamer)" title="Open publication"><img src="assets/papers/autoredteamer-thumb.jpg" srcset="assets/papers/autoredteamer-thumb.jpg 640w, assets/papers/autoredteamer.png 2046w" sizes="(max-width: 640px) 88px, 132px" width="2046" height="994" loading="lazy" decoding="async" alt="AutoRedTeamer combines red-teaming evaluation with a separate attack-strategy integration loop."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
+            <time datetime="2025">2025</time>
+            <div class="publication-copy"><h3><a href="https://papers.neurips.cc/paper_files/paper/2025/hash/f810a445357d94070669d970a95fc5d8-Abstract-Conference.html" target="_blank" rel="noopener noreferrer">AutoRedTeamer</a></h3><p class="venue">NeurIPS</p><p class="publication-overview">A red-teaming agent generates and runs tests while a second agent integrates new attacks from research. Memory-guided selection lets the system reuse what it learns as threats evolve.</p></div>
+          </article>
+          <article class="publication has-figure" id="paper-air" data-paper="air">
+            <a class="figure-link publication-figure" href="https://arxiv.org/abs/2407.17436" target="_blank" rel="noopener noreferrer" aria-label="Open publication: AIR-Bench 2024 (Paper figure / AIR-Bench)" title="Open publication"><img src="assets/papers/air-bench-thumb.jpg" srcset="assets/papers/air-bench-thumb.jpg 640w, assets/papers/air-bench.png 2002w" sizes="(max-width: 640px) 88px, 132px" width="2002" height="1253" loading="lazy" decoding="async" alt="A risk-taxonomy overview comparing the categories covered by AIR-Bench and earlier benchmarks."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
+            <time datetime="2025">2025</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2407.17436" target="_blank" rel="noopener noreferrer">AIR-Bench 2024</a></h3><p class="venue">ICLR / Spotlight</p><p class="publication-overview">Turns risks specified in government regulations and company policies into a shared taxonomy and safety benchmark, making gaps in model coverage easier to compare across jurisdictions.</p></div>
+          </article>
+          <article class="publication has-figure" id="paper-sorry" data-paper="sorry">
+            <a class="figure-link publication-figure" href="https://arxiv.org/abs/2406.14598" target="_blank" rel="noopener noreferrer" aria-label="Open publication: SORRY-Bench (Paper figure / SORRY-Bench)" title="Open publication"><img src="assets/papers/sorry-bench-thumb.jpg" srcset="assets/papers/sorry-bench-thumb.jpg 640w, assets/papers/sorry-bench.png 3990w" sizes="(max-width: 640px) 88px, 132px" width="3990" height="1050" loading="lazy" decoding="async" alt="Frequency of safety categories in ten prior datasets, ordered from most to least represented."><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-arrow"/></svg></span></a>
+            <time datetime="2025">2025</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2406.14598" target="_blank" rel="noopener noreferrer">SORRY-Bench</a></h3><p class="venue">ICLR</p><p class="publication-overview">Balances unsafe topics and varies how requests are phrased to make refusal evaluation more systematic. Human annotations also support smaller, less costly automated judges.</p></div>
+          </article>
+          <article class="publication" id="paper-finetuning" data-paper="finetuning">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://openreview.net/forum?id=hTEGyKf0dZ" target="_blank" rel="noopener noreferrer">Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!</a></h3><p class="venue">ICLR / Oral</p><p class="publication-overview">Even fine-tuning on benign, commonly used datasets can erode safety alignment. The findings show why safety needs to be checked through model adaptation, not only before release.</p></div>
+          </article>
+          <article class="publication" id="paper-persuasion" data-paper="persuasion">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2401.06373" target="_blank" rel="noopener noreferrer">How Johnny Can Persuade LLMs to Jailbreak Them</a></h3><p class="venue">ACL / Best Social Impact Paper</p><p class="publication-overview">Uses social-science persuasion techniques to construct readable jailbreaks. These attacks expose weaknesses in safeguards that can miss harmful intent when it is wrapped in convincing language.</p></div>
+          </article>
+          <article class="publication" id="paper-redcode" data-paper="redcode">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://redcode-agent.github.io/" target="_blank" rel="noopener noreferrer">RedCode: Risky Code Execution and Generation Benchmark for Code Agents</a></h3><p class="venue">NeurIPS / Datasets and Benchmarks</p><p class="publication-overview">Tests risky code generation and execution in code agents. Execution tests inspect what actually happens in a sandbox, so evaluation goes beyond whether an agent says it will refuse.</p></div>
+          </article>
+          <article class="publication" id="paper-safeharbor" data-paper="safeharbor">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://proceedings.mlr.press/v235/longpre24a.html" target="_blank" rel="noopener noreferrer">Position: A Safe Harbor for AI Evaluation and Red Teaming</a></h3><p class="venue">ICML</p><p class="publication-overview">Proposes legal and technical protections for independent, good-faith AI evaluation, so researchers can investigate failures without risking account suspension or legal reprisal.</p></div>
+          </article>
+          <article class="publication" id="paper-beear" data-paper="beear">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://aclanthology.org/2024.emnlp-main.732/" target="_blank" rel="noopener noreferrer">BEEAR: Embedding-based Adversarial Removal of Safety Backdoors in Instruction-tuned Language Models</a></h3><p class="venue">EMNLP</p><p class="publication-overview">Uses adversarial embedding perturbations to expose safety backdoors, then fine-tunes on safe responses to mitigate them without needing to know the hidden trigger.</p></div>
+          </article>
+          <article class="publication" id="paper-fairness" data-paper="fairness">
+            
+            <time datetime="2024">2024</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2406.07029" target="_blank" rel="noopener noreferrer">Fairness-Aware Meta-Learning via Nash Bargaining</a></h3><p class="venue">NeurIPS</p><p class="publication-overview">Treats conflicts between demographic groups&#39; learning signals as a bargaining problem. A two-stage method first reconciles those signals, then optimizes the chosen fairness objective.</p></div>
+          </article>
+          <details class="earlier-publications"><summary>Earlier publications <span>2022&ndash;2023</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+          <article class="publication" id="paper-data" data-paper="data">
+            
+            <time datetime="2023">2023</time>
+            <div class="publication-copy"><h3><a href="https://www.usenix.org/conference/usenixsecurity23/presentation/zeng" target="_blank" rel="noopener noreferrer">Meta-Sift: How to Sift Out a Clean Subset in the Presence of Data Poisoning?</a></h3><p class="venue">USENIX Security</p><p class="publication-overview">Many poisoning defenses assume they already have trusted data. Meta-Sift addresses that missing first step by selecting a clean reference subset from a potentially contaminated dataset.</p></div>
+          </article>
+          <article class="publication" id="paper-ibau" data-paper="ibau">
+            
+            <time datetime="2022">2022</time>
+            <div class="publication-copy"><h3><a href="https://arxiv.org/abs/2110.03735" target="_blank" rel="noopener noreferrer">Adversarial Unlearning of Backdoors via Implicit Hypergradient</a></h3><p class="venue">ICLR</p><p class="publication-overview">Removes learned backdoors using a small clean dataset. Implicit gradients couple the search for adversarial behavior with the model updates that unlearn it.</p></div>
+          </article></details></div>
+      </section>
+    </main>
+    <footer><span>Yi Zeng &middot; AI safety research</span><a href="mailto:yizeng0623@gmail.com">yizeng0623@gmail.com</a></footer>
+  </div>
+  <dialog class="figure-viewer" id="figure-viewer" aria-labelledby="viewer-title" aria-describedby="viewer-caption">
+    <div class="viewer-shell">
+      <div class="viewer-header">
+        <div class="viewer-heading"><p class="viewer-kind" id="viewer-kind"></p><h2 class="viewer-title" id="viewer-title"></h2></div>
+        <div class="viewer-tools">
+          <button class="viewer-tool" id="viewer-zoom" type="button" aria-label="Zoom in" title="Zoom in" aria-controls="viewer-stage"><svg class="icon" aria-hidden="true"><use href="#icon-zoom-in"/></svg></button>
+          <button class="viewer-tool" id="viewer-close" type="button" aria-label="Close image" title="Close image" autofocus><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
+        </div>
+      </div>
+      <div class="viewer-stage" id="viewer-stage" tabindex="0" role="region" aria-label="Enlarged figure">
+        <img id="viewer-image" alt="" decoding="async">
+        <p class="viewer-error" id="viewer-error" role="status" hidden>Image unavailable.</p>
+      </div>
+      <div class="viewer-caption"><p id="viewer-caption"></p><a id="viewer-source" target="_blank" rel="noopener noreferrer" hidden></a></div>
+    </div>
+  </dialog>
+  <script>
+    'use strict';
+    const { publications, systems, workGroups, research, media } = {"publications":[{"id":"mcpo","year":"2026","title":"Mode-Controlled Policy Optimization: A Geometry-Aware Recipe for LLM Post-Training","venue":"NeurIPS","distinction":"Accepted","linkType":"Conference listing","url":"https://neurips.cc/virtual/2026/poster/150744","summary":"An α-divergence dial controls whether post-training concentrates on a few high-reward responses or preserves broader support. The useful setting depends on the task and reference model."},{"id":"speceval","year":"2026","title":"SpecEval: Evaluating Model Adherence to Behavior Specifications","venue":"TMLR","url":"https://arxiv.org/abs/2509.02464","summary":"Do models follow their own developers' rules? An automated audit compares published specifications, model responses, and the developers' own models as judges, revealing gaps between stated and observed behavior."},{"id":"autored","year":"2025","title":"AutoRedTeamer","venue":"NeurIPS","url":"https://papers.neurips.cc/paper_files/paper/2025/hash/f810a445357d94070669d970a95fc5d8-Abstract-Conference.html","summary":"A red-teaming agent generates and runs tests while a second agent integrates new attacks from research. Memory-guided selection lets the system reuse what it learns as threats evolve."},{"id":"air","year":"2025","title":"AIR-Bench 2024","venue":"ICLR","distinction":"Spotlight","url":"https://arxiv.org/abs/2407.17436","summary":"Turns risks specified in government regulations and company policies into a shared taxonomy and safety benchmark, making gaps in model coverage easier to compare across jurisdictions."},{"id":"sorry","year":"2025","title":"SORRY-Bench","venue":"ICLR","url":"https://arxiv.org/abs/2406.14598","summary":"Balances unsafe topics and varies how requests are phrased to make refusal evaluation more systematic. Human annotations also support smaller, less costly automated judges."},{"id":"finetuning","year":"2024","title":"Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!","venue":"ICLR","distinction":"Oral","url":"https://openreview.net/forum?id=hTEGyKf0dZ","summary":"Even fine-tuning on benign, commonly used datasets can erode safety alignment. The findings show why safety needs to be checked through model adaptation, not only before release."},{"id":"persuasion","year":"2024","title":"How Johnny Can Persuade LLMs to Jailbreak Them","venue":"ACL","distinction":"Best Social Impact Paper","url":"https://arxiv.org/abs/2401.06373","summary":"Uses social-science persuasion techniques to construct readable jailbreaks. These attacks expose weaknesses in safeguards that can miss harmful intent when it is wrapped in convincing language."},{"id":"redcode","year":"2024","title":"RedCode: Risky Code Execution and Generation Benchmark for Code Agents","venue":"NeurIPS","distinction":"Datasets and Benchmarks","url":"https://redcode-agent.github.io/","summary":"Tests risky code generation and execution in code agents. Execution tests inspect what actually happens in a sandbox, so evaluation goes beyond whether an agent says it will refuse."},{"id":"safeharbor","year":"2024","title":"Position: A Safe Harbor for AI Evaluation and Red Teaming","venue":"ICML","url":"https://proceedings.mlr.press/v235/longpre24a.html","summary":"Proposes legal and technical protections for independent, good-faith AI evaluation, so researchers can investigate failures without risking account suspension or legal reprisal."},{"id":"beear","year":"2024","title":"BEEAR: Embedding-based Adversarial Removal of Safety Backdoors in Instruction-tuned Language Models","venue":"EMNLP","url":"https://aclanthology.org/2024.emnlp-main.732/","summary":"Uses adversarial embedding perturbations to expose safety backdoors, then fine-tunes on safe responses to mitigate them without needing to know the hidden trigger."},{"id":"fairness","year":"2024","title":"Fairness-Aware Meta-Learning via Nash Bargaining","venue":"NeurIPS","url":"https://arxiv.org/abs/2406.07029","summary":"Treats conflicts between demographic groups' learning signals as a bargaining problem. A two-stage method first reconciles those signals, then optimizes the chosen fairness objective."},{"id":"data","year":"2023","title":"Meta-Sift: How to Sift Out a Clean Subset in the Presence of Data Poisoning?","venue":"USENIX Security","url":"https://www.usenix.org/conference/usenixsecurity23/presentation/zeng","summary":"Many poisoning defenses assume they already have trusted data. Meta-Sift addresses that missing first step by selecting a clean reference subset from a potentially contaminated dataset."},{"id":"ibau","year":"2022","title":"Adversarial Unlearning of Backdoors via Implicit Hypergradient","venue":"ICLR","url":"https://arxiv.org/abs/2110.03735","summary":"Removes learned backdoors using a small clean dataset. Implicit gradients couple the search for adversarial behavior with the model updates that unlearn it."}],"systems":{"data":{"title":"TikTok data flywheel","status":"Platform-wide data infrastructure","year":"2026","teaser":"Architected TikTok's data flywheel and lead its development with research and engineering partners.","body":"The flywheel connects platform-wide data with foundation-model training and evaluation. Shared infrastructure supports data discovery, curation, and coverage analysis for both general capabilities and safety; evaluation gaps guide the next round of data development."},"measurement":{"title":"Pan-safety capability evaluation","status":"Evaluation research","year":"2026","teaser":"Designed evaluations spanning risk understanding, safe responses, and agent behavior.","body":"Refusal scores capture only part of safety. Pan-safety evaluation asks how risk understanding, generation, and agent behavior relate across training, with robustness and evaluation quality treated as part of the same question."},"pretraining":{"title":"Safety capability pretraining","status":"Unpublished research","year":"2026","teaser":"Proposed the safety-pretraining direction and led its development with research collaborators.","body":"I study how safety understanding can develop alongside general knowledge. This research treats pretraining as a place to learn safety capabilities, and evaluation as a way to distinguish those capabilities from refusal alone."},"posttraining":{"title":"A dial for post-training","status":"NeurIPS, accepted","year":"2026","teaser":"Co-developed an α-divergence dial for mode-seeking and mode-covering in post-training.","body":"I co-developed an α-divergence dial for post-training: choose how strongly learning concentrates on a few high-reward responses or covers a broader range. Tests across reasoning, agentic tasks, and safety show that the useful setting depends on the task and reference model."},"adaptation":{"title":"Capability retention during adaptation","status":"Unpublished research","year":"2026","teaser":"Proposed and co-developed a training-time method for capability retention.","body":"Earlier work on fine-tuning safety raised a practical question: how can a model learn new tasks without losing useful behavior? I proposed the method, co-developed it with a research intern, and directed the experimental design."},"redteaming":{"title":"Red-teaming models & evaluation","status":"Adversarial evaluation","year":"2026","teaser":"My red-teaming work combines attack-model development with evaluation of model failures.","body":"I develop and evaluate red-teaming models to study where safeguards fail. Reliable failure discovery also requires examining the test itself: what it probes, what the response shows, and what the scoring can establish."},"preparedness":{"title":"Preparedness & agentic evaluation","status":"Evaluation infrastructure","year":"2026","teaser":"Built model-evaluation and risk-review workflows with research, policy, and legal colleagues.","body":"My work spans misuse, persuasion-related behavior, political bias, and agentic evaluation. Each asks a different measurement question; a model response, an action in an environment, and an effect on a person are not interchangeable evidence."},"deployment":{"title":"Global model safety alignment","status":"Production alignment","year":"2025","teaser":"Technical lead for global LLM/VLM safety alignment across training, policy, and evaluation.","body":"I connected regional safety requirements to alignment data and model evaluation, including work on bias mitigation and deliberative alignment. That production experience shaped my current focus on how safety is learned throughout training."}},"workGroups":[{"id":"foundations","label":["Data","& Pretraining"],"items":["data","pretraining"]},{"id":"adaptation","label":["Post-training","& Adaptation"],"items":["posttraining","adaptation"]},{"id":"evaluation","label":["Evaluation","& Deployment"],"items":["measurement","redteaming","preparedness","deployment"]}],"research":{"data":{"category":"TikTok / Data foundations","name":"TikTok data flywheel","status":"Platform-wide data infrastructure / 2026","body":"TikTok's data flywheel brings platform-wide data into a continuous cycle of model training, evaluation, and adaptation. I lead the architecture and cross-team development, with capability gaps guiding data discovery and curation. Safety is one application, alongside broader model capabilities.","links":["data","fairness"],"stages":["data","pretraining","posttraining","adaptation","deployment"],"years":["era2023","era2026"],"papers":["data","fairness"],"edges":[0,1,2,3],"color":"teal"},"pretraining":{"category":"TikTok / Capability formation","name":"Safety pretraining","status":"Unpublished research / 2026","body":"How does safety understanding develop alongside general knowledge? I investigate data-centric pretraining approaches, with attention to capabilities that extend beyond producing a refusal.","links":["air","sorry"],"stages":["data","pretraining","posttraining"],"years":["era2026"],"papers":["air","sorry"],"edges":[0,1],"color":"teal"},"posttraining":{"category":"TikTok / Post-training","name":"An α-divergence dial","status":"NeurIPS 2026, accepted","body":"An α-divergence dial lets us choose between mode-seeking and mode-covering during post-training: concentrating on fewer high-reward responses or covering a broader range. The useful setting varies with the task and reference model.","links":["mcpo","finetuning"],"stages":["posttraining","pretraining","adaptation"],"years":["era2024","era2026"],"papers":["mcpo","finetuning"],"edges":[1,2],"color":"coral"},"adaptation":{"category":"TikTok / Capability retention","name":"Safety under change","status":"Unpublished research / 2026","body":"Our earlier fine-tuning work showed that alignment can erode during adaptation. That finding motivates my work on retaining learned capabilities as models specialize in new tasks.","links":["finetuning","beear"],"stages":["adaptation","posttraining","deployment"],"years":["era2024","era2026"],"papers":["finetuning","beear"],"edges":[2,3],"color":"coral"},"deployment":{"category":"TikTok / Production alignment","name":"Global model alignment","status":"Production alignment / 2025","body":"Production alignment connects safety requirements to model behavior. My work on global LLM/VLM deployments brought together alignment data, bias mitigation, and evaluation across regional policies.","links":["speceval","fairness"],"stages":["deployment","data","posttraining"],"years":["era2025"],"papers":["speceval","fairness"],"edges":[0,3],"color":"teal"},"measurement":{"category":"TikTok / Lifecycle measurement","name":"Pan-safety evaluation","status":"Evaluation research / 2026","body":"Can stronger refusal hide weaker risk understanding? Pan-Safety compares perception, generation, agent behavior, and robustness across training checkpoints, with benchmark and judge-reliability audits. Those comparisons guide what to measure during pretraining and later adaptation.","links":["air","sorry","speceval"],"stages":["data","pretraining","posttraining","adaptation","deployment"],"years":["era2024","era2025","era2026"],"papers":["air","sorry","speceval"],"edges":[0,1,2,3],"color":"blue"},"redteaming":{"category":"TikTok / Adversarial testing","name":"Red-teaming models","status":"Adversarial evaluation / 2026","body":"A useful red-team test reveals a model failure rather than a scoring artifact. My research connects attack-model development with careful evaluation of what those tests actually establish.","links":["autored","persuasion"],"stages":["data","posttraining","deployment"],"years":["era2024","era2025","era2026"],"papers":["autored","persuasion"],"edges":[0,2,3],"color":"blue"},"preparedness":{"category":"TikTok / Frontier-risk preparedness","name":"Preparedness & agents","status":"Cross-functional evaluation / 2026","body":"Misuse, including CBRN risks, persuasion, and agent behavior require different evidence. I work across research, policy, and legal perspectives to make risk questions precise enough to evaluate, without treating model responses as proof of real-world effects.","links":["redcode","persuasion","safeharbor"],"stages":["data","posttraining","deployment"],"years":["era2026"],"papers":["redcode","persuasion","safeharbor"],"edges":[0,2,3],"color":"blue"},"era2023":{"category":"2021-2023 / Foundations","name":"Data integrity","status":"Data-centric security research","body":"Poisoning and backdoor research started with a data problem: what gets learned when the training set is compromised? That work led to clean-data selection and methods for removing learned backdoors.","links":["data","ibau"],"stages":["data","pretraining"],"years":["era2023"],"papers":["data","ibau"],"edges":[0],"color":"teal"},"era2024":{"category":"2024 / Failure modes","name":"Diagnosing failures","status":"ICLR / ACL / EMNLP / NeurIPS","body":"Fine-tuning could undo alignment; persuasion could bypass it. Work on safety backdoors and fairness added other failure modes. These results sharpened the question of what a model actually learns during alignment.","links":["finetuning","persuasion","beear"],"stages":["data","posttraining","adaptation"],"years":["era2024"],"papers":["finetuning","persuasion","beear","fairness"],"edges":[1,2],"color":"coral"},"era2025":{"category":"2025 / Evaluation to production","name":"From policy to models","status":"TikTok / Production alignment","body":"At TikTok, I developed alignment data and led deliberative safety alignment across regional policies. Production work made the connection between safety requirements, training data, and model behavior central to my research.","links":["air","sorry","autored"],"stages":["data","posttraining","deployment"],"years":["era2025"],"papers":["air","sorry","autored"],"edges":[0,3],"color":"blue"},"era2026":{"category":"2026 / Model lifecycle","name":"Safety across training","status":"TikTok / Research & leadership","body":"Production work led me upstream: how safety is learned in pretraining, which behaviors post-training selects, and what later specialization can undo. I now lead this research alongside TikTok's platform-wide data flywheel and shared evaluation systems.","links":["mcpo","speceval"],"stages":["data","pretraining","posttraining","adaptation","deployment"],"years":["era2026"],"papers":["mcpo","speceval"],"edges":[0,1,2,3],"color":"coral"}},"media":{"data":{"src":"assets/work/platform-data-flywheel-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"Platform data is organized and curated for model training and evaluation; capability gaps guide the next data iteration.","caption":"A platform-wide data flywheel supporting general model capabilities and safety. Concept illustration, without specific data sources, implementation details, or measured results.","thumb":"assets/work/platform-data-flywheel-concept-thumb.jpg","page":"figures/platform-data-flywheel-concept.html"},"measurement":{"src":"assets/work/safety-dimensions-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"Risk understanding, safe responses, and safe actions are connected, with robustness across contexts spanning all three.","caption":"Connected research dimensions, not model scores, institutional comparisons, or an exhaustive safety taxonomy.","thumb":"assets/work/safety-dimensions-concept-thumb.jpg","page":"figures/safety-dimensions-concept.html"},"pretraining":{"src":"assets/work/safety-learning-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"General knowledge and safety reasoning are considered together in a model-learning research question.","caption":"The research question of learning safety alongside knowledge. This is not a training recipe or an experimental result.","thumb":"assets/work/safety-learning-concept-thumb.jpg","page":"figures/safety-learning-concept.html"},"posttraining":{"src":"assets/work/posttraining-geometry-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"An alpha-divergence dial illustrates the choice between mode-seeking and mode-covering in post-training.","caption":"A conceptual view of post-training geometry, not an original paper figure or a universally optimal setting.","source":"https://neurips.cc/virtual/2026/poster/150744","sourceLabel":"Conference listing","thumb":"assets/work/posttraining-geometry-concept-thumb.jpg","page":"figures/posttraining-geometry-concept.html"},"adaptation":{"src":"assets/work/capability-retention-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"A model encounters new tasks, raising the question of which learned capabilities remain after adaptation.","caption":"The question of capability retention during adaptation. No method implementation or measured outcome is depicted.","thumb":"assets/work/capability-retention-concept-thumb.jpg","page":"figures/capability-retention-concept.html"},"redteaming":{"src":"assets/work/red-teaming.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"Attack proposals are tested on a model, independently checked, and refined through feedback.","caption":"A functional red-teaming loop. The illustration does not encode attack results.","thumb":"assets/work/red-teaming-thumb.jpg","page":"figures/red-teaming.html"},"preparedness":{"src":"assets/work/risk-evaluation-concept.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"Misuse, influence, and agent scenarios call for distinct response, behavior, and action evaluations.","caption":"Distinct measurement questions inform risk review. The illustration names no data sources and reports no results.","thumb":"assets/work/risk-evaluation-concept-thumb.jpg","page":"figures/risk-evaluation-concept.html"},"deployment":{"src":"assets/work/deployment.jpg","width":1536,"height":1024,"kind":"Concept illustration","alt":"Safety requirements guide training data, model alignment, and release evidence, with safety and capability checks.","caption":"The alignment workflow, not a claim of universal safety or legal compliance.","thumb":"assets/work/deployment-thumb.jpg","page":"figures/deployment.html"}}};
+    const stageKeys = ['data', 'pretraining', 'posttraining', 'adaptation', 'deployment'];
+    const atlas = document.getElementById('atlas');
+    const pin = document.getElementById('pin');
+    const detail = document.getElementById('research-detail');
+    const detailHome = document.getElementById('detail-home');
+    const mobileLayout = window.matchMedia('(max-width: 640px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const controls = [...atlas.querySelectorAll('button[data-select]')];
+    const returnLink = document.getElementById('detail-return');
+    const workLink = document.getElementById('detail-work');
+    const ns = 'http://www.w3.org/2000/svg';
+    let selected = null;
+    let pinned = null;
+    let expanded = null;
+    let inputMode = 'keyboard';
+    let hoveredKey = null;
+    let focusedKey = null;
+    let hoverTimer;
+    let announcementTimer;
+    let diagramFrame;
+    let returnSource = null;
+    let currentAddress = null;
+    let flowFrame = null;
+    let atlasReady = false;
+    const flowRoutes = [];
 
-<style>
-	div {
-	  text-align:center;
-	  position: absolute;
-	  left:45%;
-	  top: 45%;
-	}
-	.text1{
-	  font-size:98px;
-	  text-shadow: 5px 5px 5px #FF0000;
-	  animation-name:myfirst;
-		animation-duration:1s;
-		animation-timing-function:linear;
-		animation-delay:0;
-		animation-iteration-count:1;
-		animation-direction:alternate;
-		animation-play-state:running;
-	  visibility:hidden;
-	}
-	.text2{
-	  font-size:98px;
-	  text-shadow: 5px 5px 5px #FF0000;
-	  animation-name:myfirst;
-		animation-duration:1s;
-		animation-timing-function:linear;
-		animation-delay:1s;
-		animation-iteration-count:1;
-		animation-direction:alternate;
-		animation-play-state:running;
-	  visibility:hidden;
-	}
-	.text3{
-	  font-size:98px;
-	  text-shadow: 5px 5px 5px #FF0000;
-	  animation-name:myfirst;
-		animation-duration:1s;
-		animation-timing-function:linear;
-		animation-delay:2s;
-		animation-iteration-count:1;
-		animation-direction:alternate;
-		animation-play-state:running;
-	  visibility:hidden;
-	}
+    const viewer = document.getElementById('figure-viewer');
+    const viewerStage = document.getElementById('viewer-stage');
+    const viewerImage = document.getElementById('viewer-image');
+    const viewerZoom = document.getElementById('viewer-zoom');
+    const viewerClose = document.getElementById('viewer-close');
+    const viewerSource = document.getElementById('viewer-source');
+    const canViewFigures = typeof viewer.showModal === 'function';
+    let viewerOrigin = null;
+    let backdropPointer = false;
 
-	.text4{
-	  font-size:98px;
-	  text-shadow: 5px 5px 5px #FF0000;
-	  animation-name:myfirst;
-		animation-duration:1s;
-		animation-timing-function:linear;
-		animation-delay:3s;
-		animation-iteration-count:1;
-		animation-direction:alternate;
-		animation-play-state:running;
-	  visibility:hidden;
-	}
-	.text5{
-	  font-size:98px;
-	  text-shadow: 5px 5px 5px #FF0000;
-	  animation-name:myfirst;
-		animation-duration:1s;
-		animation-timing-function:linear;
-		animation-delay:4s;
-		animation-iteration-count:1;
-		animation-direction:alternate;
-		animation-play-state:running;
-	  visibility:hidden;
-	}
-	@keyframes myfirst
-	{
-		0%   {transform: scale(1,1) rotate3d(0, 1, 0 , 0deg)  ;visibility: visible;}
-		20%  {transform: scale(1.3,1.3) rotate3d(0, 1, 0 , 120deg) ;visibility: visible;}
-		40%  {transform: scale(1.6,1.6) rotate3d(0, 1, 0 , 240deg) ;visibility: visible;}
-	   60%  {transform: scale(2,2) rotate3d(0, 1, 0 , 360deg) ;visibility: visible;}
-	  80%  {transform: scale(2,2) rotate3d(0, 1, 0 , 360deg) ;visibility: visible;}
-		100%  {transform: scale(2,2) rotate3d(0, 1, 0 , 360deg) ;visibility: visible;}
-	}
-	#pls{
-		position: absolute;
-		left: 0%;
-		top: 0%;
-	}
-</style>
+    function setFigureZoom(zoomed) {
+      viewer.classList.toggle('is-zoomed', zoomed);
+      const label = zoomed ? 'Fit image' : 'Zoom in';
+      viewerZoom.setAttribute('aria-label', label); viewerZoom.title = label;
+      viewerZoom.querySelector('use').setAttribute('href', zoomed ? '#icon-zoom-out' : '#icon-zoom-in');
+      viewerStage.scrollLeft = zoomed ? (viewerStage.scrollWidth - viewerStage.clientWidth) / 2 : 0;
+      viewerStage.scrollTop = zoomed ? (viewerStage.scrollHeight - viewerStage.clientHeight) / 2 : 0;
+    }
+    function restoreFromViewer(restoreFocus = true) {
+      if (!viewerOrigin) return;
+      const { trigger, x, y } = viewerOrigin;
+      viewerOrigin = null;
+      document.documentElement.classList.remove('figure-viewer-open');
+      document.documentElement.style.removeProperty('--viewer-scroll-top');
+      document.documentElement.style.removeProperty('--viewer-scroll-left');
+      window.scrollTo({ left: x, top: y, behavior: 'instant' });
+      if (restoreFocus) {
+        const target = trigger.isConnected && !trigger.closest('[hidden]') ? trigger :
+          trigger.id === 'detail-figure' ? controls.find(button => button.dataset.select === selected) : null;
+        target?.focus({ preventScroll: true });
+      }
+      viewerImage.removeAttribute('src');
+      backdropPointer = false;
+    }
+    function closeFigure(restoreFocus = true) {
+      if (!viewer.open) return;
+      viewer.close();
+      restoreFromViewer(restoreFocus);
+    }
+    function openFigure(trigger) {
+      const key = trigger.dataset.figure;
+      const asset = media[key];
+      if (!asset || viewer.open) return;
+      clearTimeout(hoverTimer);
+      stopFlow();
+      viewerOrigin = { trigger, x: window.scrollX, y: window.scrollY };
+      document.getElementById('viewer-title').textContent = systems[key].title;
+      document.getElementById('viewer-kind').textContent = asset.kind;
+      document.getElementById('viewer-caption').textContent = asset.caption;
+      viewerImage.alt = asset.alt; viewerImage.width = asset.width; viewerImage.height = asset.height;
+      viewerImage.hidden = false; viewerZoom.disabled = false;
+      document.getElementById('viewer-error').hidden = true;
+      viewer.style.setProperty('--image-width', asset.width + 'px');
+      viewerSource.hidden = !asset.source;
+      viewerSource.textContent = asset.sourceLabel || '';
+      if (asset.source) viewerSource.href = asset.source;
+      else viewerSource.removeAttribute('href');
+      setFigureZoom(false);
+      viewerImage.src = asset.src;
+      document.documentElement.style.setProperty('--viewer-scroll-top', -viewerOrigin.y + 'px');
+      document.documentElement.style.setProperty('--viewer-scroll-left', -viewerOrigin.x + 'px');
+      document.documentElement.classList.add('figure-viewer-open');
+      viewer.showModal();
+      viewerClose.focus({ preventScroll: true });
+    }
+    if (canViewFigures) {
+      document.querySelectorAll('[data-figure]').forEach(link => link.setAttribute('aria-haspopup', 'dialog'));
+      document.addEventListener('click', event => {
+        const trigger = event.target.closest('a[data-figure]');
+        // Keep normal links for new-tab gestures and browsers without dialog support.
+        if (!trigger || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault(); openFigure(trigger);
+      });
+      viewerClose.addEventListener('click', () => closeFigure());
+      viewerZoom.addEventListener('click', () => setFigureZoom(!viewer.classList.contains('is-zoomed')));
+      viewer.addEventListener('cancel', event => { event.preventDefault(); closeFigure(); });
+      viewer.addEventListener('close', () => { if (!viewer.open) restoreFromViewer(); });
+      viewer.addEventListener('pointerdown', event => { backdropPointer = event.target === viewer; });
+      viewer.addEventListener('pointercancel', () => { backdropPointer = false; });
+      viewer.addEventListener('click', event => {
+        if (event.target === viewer && backdropPointer) closeFigure();
+        backdropPointer = false;
+      });
+      viewerImage.addEventListener('error', () => {
+        if (!viewer.open) return;
+        viewerImage.hidden = true; viewerZoom.disabled = true;
+        document.getElementById('viewer-error').hidden = false;
+        document.getElementById('viewer-error').textContent = 'Image unavailable. Please close and try again.';
+      });
+    }
 
-<html>
+    const workTabs = document.getElementById('work-tabs');
+    const workButtons = [...workTabs.querySelectorAll('[data-work-tab]')];
+    const workPanels = [...document.querySelectorAll('[data-work-group]')];
+    let activeWorkGroup = null;
 
-<div class="text1">3</div>
-<div class="text2">2</div>
-<div class="text3">1</div>
-<div class="text4">0</div>
-<div class="text5">0</div>
+    function selectWorkGroup(key) {
+      if (!workGroups.some(group => group.id === key)) return;
+      const previous = workPanels.find(panel => panel.dataset.workGroup === activeWorkGroup);
+      const moveFocus = key !== activeWorkGroup && (previous?.contains(document.activeElement) || workTabs.contains(document.activeElement));
+      activeWorkGroup = key;
+      for (const button of workButtons) {
+        const active = button.dataset.workTab === key;
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+      }
+      for (const panel of workPanels) panel.hidden = panel.dataset.workGroup !== key;
+      if (moveFocus) workButtons.find(button => button.dataset.workTab === key).focus({preventScroll:true});
+    }
+    function revealWork(element) {
+      const panel = element.closest('[data-work-group]');
+      if (panel) selectWorkGroup(panel.dataset.workGroup);
+    }
+    function navigateWorkGroup(button) {
+      button.focus({preventScroll:true});
+      if (activeWorkGroup === button.dataset.workTab) return;
+      history.replaceState({ ...history.state, workGroup: activeWorkGroup }, '', location.href);
+      const keepPosition = mobileLayout.matches && expanded !== null;
+      const previousTop = keepPosition ? workTabs.getBoundingClientRect().top : null;
+      selectWorkGroup(button.dataset.workTab);
+      clearTimeout(hoverTimer); pinned = null; setReturnSource(null);
+      if (mobileLayout.matches) closeInline();
+      syncPinned();
+      const hash = '#work-' + button.dataset.workTab;
+      if (location.hash !== hash) history.pushState({ workGroup: activeWorkGroup }, '', hash);
+      currentAddress = location.href;
+      if (keepPosition) {
+        const delta = workTabs.getBoundingClientRect().top - previousTop;
+        if (delta) window.scrollTo({ top: window.scrollY + delta, behavior: 'instant' });
+      }
+    }
+    workTabs.addEventListener('click', event => {
+      const button = event.target.closest('[data-work-tab]');
+      if (button) navigateWorkGroup(button);
+    });
+    workTabs.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      const index = workButtons.indexOf(event.target.closest('[data-work-tab]'));
+      if (index < 0) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? workButtons.length - 1 :
+        (index + (event.key === 'ArrowLeft' ? -1 : 1) + workButtons.length) % workButtons.length;
+      navigateWorkGroup(workButtons[next]);
+    });
 
-<META HTTP-EQUIV='Refresh' CONTENT='3;URL=http://www.yi-zeng.com/'>
-<div id="pls">Please visit my new website: <a href="http://www.yi-zeng.com/">http://www.yi-zeng.com/</a></div>
+    function svgElement(tag, attributes) {
+      const element = document.createElementNS(ns, tag);
+      for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, value);
+      return element;
+    }
+    function drawWeave() {
+      const paths = document.getElementById('desktop-strands');
+      const joints = document.getElementById('desktop-junctions');
+      const glyphs = document.getElementById('desktop-glyphs');
+      const packets = document.getElementById('desktop-packets');
+      const vignette = document.getElementById('data-vignette');
+      const miniature = svgElement('g', { transform: 'translate(0 10)' });
+      vignette.append(miniature);
+      const colors = ['gray', 'blue', 'gray', 'teal', 'coral', 'blue', 'gray'];
+      const columns = [248, 280, 314, 348, 382, 416, 450];
+      const spreads = [28, 45, 58, 55, 44, 29, 15];
+      const appendPath = (d, color, edge, region) => {
+        const path = svgElement('path', { d, class: `strand ${color}`, 'data-edge': edge, 'data-region': region });
+        paths.append(path);
+        if (region === 'data' || region === 'pretraining') miniature.append(path.cloneNode(true));
+        return path;
+      };
+      const token = (x, y, color, parent = joints) => parent.append(svgElement('rect', {
+        x: x - 2.5, y: y - 2.5, width: 5, height: 5, rx: .5, class: `weave-token ${color}`
+      }));
+      const curveThrough = points => points.slice(1).reduce((d, [x, y], index) => {
+        const [px, py] = points[index], middle = (x + px) / 2;
+        return d + `C${middle} ${py} ${middle} ${y} ${x} ${y}`;
+      }, `M${points[0][0]} ${points[0][1]}`);
+
+      // A conceptual braid: adjacent crossings form a shared representation,
+      // followed by selectable modes and retained paths. These are not model traces.
+      colors.forEach((color, lane) => {
+        let row = lane;
+        const points = columns.map((x, column) => {
+          if (column) {
+            const pairs = column % 2 ? [1, 0, 3, 2, 5, 4, 6] : [0, 2, 1, 4, 3, 6, 5];
+            row = pairs[row];
+          }
+          return [x, 108 + (row - 3) * spreads[column] / 3];
+        });
+        const startY = 43 + lane * 18;
+        const [firstX, firstY] = points[0], [lastX, lastY] = points.at(-1);
+        const entry = `M64 ${startY}C150 ${startY} 165 ${firstY} ${firstX} ${firstY}`;
+        const weave = curveThrough(points);
+        const postY = 72 + lane * 12;
+        const merge = `M${lastX} ${lastY}C496 ${lastY} 510 ${postY} 550 ${postY}`;
+        const branchY = 54 + lane * 18;
+        const branch = `M550 ${postY}C590 ${postY} 690 ${branchY} 770 ${branchY}`;
+        const exitY = [54, 54, 108, 108, 108, 162, 162][lane];
+        // Shared horizontal tangents keep the adaptation join smooth; lane order
+        // stays consistent through the three deployment ports.
+        const output = `M770 ${branchY}C850 ${branchY} 964 ${exitY} 1044 ${exitY}`;
+        appendPath(entry, color, 0, 'data');
+        appendPath(weave, color, 1, 'pretraining');
+        appendPath(merge, color, 1, 'transfer');
+        appendPath(branch, color, 2, 'posttraining');
+        appendPath(output, color, 3, 'adaptation');
+        points.forEach(([x, y], column) => {
+          const junction = svgElement('circle', { cx: x, cy: y, r: 2.4, class: `weave-junction ${color}` });
+          joints.append(junction); miniature.append(junction.cloneNode(true));
+          if (column === 4 && lane % 2 === 0) token(x, y, color);
+        });
+        token(78, startY, color);
+        joints.append(svgElement('circle', { cx: 550, cy: postY, r: 2.4, class: `weave-junction posttraining-junction ${color}` }));
+        token(770, branchY, color);
+        const route = svgElement('path', { d: [entry, weave, merge, branch, output].join(''), fill: 'none', stroke: 'none', 'data-flow-route': lane });
+        const packet = svgElement('rect', { x: -3, y: -3, width: 6, height: 6, rx: 1, class: `weave-token flow-packet ${color}` });
+        packets.append(route, packet);
+        flowRoutes.push({ route, packet });
+      });
+      [54, 108, 162].forEach(y => {
+        joints.append(svgElement('circle', { cx: 1044, cy: y, r: 3, class: 'weave-junction deployment-port' }));
+      });
+      function glyph(id, x, y, zone) {
+        const group = svgElement('g', { class: 'weave-glyph weave-zone', 'data-zone': zone });
+        group.append(svgElement('use', { href: '#icon-' + id, x, y, width: 29, height: 29 }));
+        glyphs.append(group);
+        if (zone === 'data') miniature.append(group.cloneNode(true));
+      }
+      glyph('file', 22, 31, 'data');
+      glyph('image', 22, 83, 'data');
+      glyph('message', 22, 135, 'data');
+      glyph('message', 1058, 39.5, 'deployment');
+      glyph('network', 1058, 93.5, 'deployment');
+      glyph('settings', 1058, 147.5, 'deployment');
+      const nodes = document.getElementById('desktop-nodes');
+      stageKeys.forEach((key, index) => {
+        const x = 110 + 220 * index;
+        const band = svgElement('g', { class: 'stage-region', 'data-select': key });
+        band.append(svgElement('rect', { x: 220 * index, y: 0, width: 220, height: 182, rx: 4 }));
+        document.getElementById('desktop-stage-bands').append(band);
+        document.getElementById('desktop-guides').append(svgElement('path', { d: `M${x} 24V180`, class: 'guide' }));
+        const node = svgElement('g', { class: 'node', 'data-node': key, 'data-select': key });
+        node.append(svgElement('circle', { cx: x, cy: 12, r: 11, class: 'node-halo' }),
+          svgElement('circle', { cx: x, cy: 12, r: 6.5, class: 'node-ring' }),
+          svgElement('circle', { cx: x, cy: 12, r: 3.5, class: 'node-dot' }),
+          svgElement('circle', { cx: x, cy: 12, r: 22, class: 'hit' }));
+        nodes.append(node);
+      });
+    }
+    function drawMobileDiagram() {
+      const positions = [[16,38],[14,114],[17,190],[14,266],[16,342]];
+      const lanes = [{color:'gray', bend:-48},{color:'teal', bend:-27},{color:'coral', bend:0},{color:'blue', bend:26},{color:'gray', bend:48}];
+      const paths = document.getElementById('mobile-strands');
+      for (let edge = 0; edge < 4; edge++) {
+        const [x1,y1] = positions[edge], [x2,y2] = positions[edge+1];
+        lanes.forEach(({color,bend}) => {
+          const d = `M${x1} ${y1}C${x1+bend*.3} ${y1+24} ${x2+bend*.3} ${y2-24} ${x2} ${y2}`;
+          paths.append(svgElement('path', {d, class:`strand ${color}`, 'data-edge':edge, 'data-bend':bend}));
+        });
+      }
+      const nodes = document.getElementById('mobile-nodes');
+      positions.forEach(([x,y],index) => {
+        const group = svgElement('g', {class:'node', 'data-node':stageKeys[index], 'data-select':stageKeys[index]});
+        group.append(svgElement('circle',{cx:x,cy:y,r:12,class:'node-halo'}), svgElement('circle',{cx:x,cy:y,r:8,class:'node-ring'}), svgElement('circle',{cx:x,cy:y,r:5,class:'node-dot'}));
+        nodes.append(group);
+      });
+    }
+    drawWeave();
+    drawMobileDiagram();
+
+    function stopFlow() {
+      if (flowFrame !== null) cancelAnimationFrame(flowFrame);
+      flowFrame = null;
+      flowRoutes.forEach(({ packet }) => { packet.style.opacity = '0'; });
+      delete atlas.dataset.flowing;
+    }
+    function playFlow(key) {
+      stopFlow();
+      if (!atlasReady || mobileLayout.matches || reducedMotion.matches || document.hidden || viewer.open) return;
+      if (!flowRoutes.every(({ route }) => typeof route.getTotalLength === 'function' && typeof route.getPointAtLength === 'function')) return;
+      const range = { pretraining: [.12, .5], posttraining: [.4, .74], adaptation: [.62, .96], deployment: [.8, 1] }[key] || [0, 1];
+      const routes = flowRoutes.map(item => ({ ...item, length: item.route.getTotalLength() }));
+      if (routes.some(item => !Number.isFinite(item.length) || item.length <= 0)) return;
+      let started;
+      atlas.dataset.flowing = key;
+      function step(now) {
+        started ??= now;
+        const elapsed = now - started;
+        routes.forEach(({ route, packet, length }, index) => {
+          const progress = (elapsed - index * 38) / 1600;
+          if (progress <= 0 || progress >= 1) { packet.style.opacity = '0'; return; }
+          const point = route.getPointAtLength(length * (range[0] + (range[1] - range[0]) * progress));
+          packet.setAttribute('transform', `translate(${point.x} ${point.y})`);
+          packet.style.opacity = String(Math.min(1, progress * 10, (1 - progress) * 10));
+        });
+        if (elapsed < 1600 + (routes.length - 1) * 38) flowFrame = requestAnimationFrame(step);
+        else stopFlow();
+      }
+      flowFrame = requestAnimationFrame(step);
+    }
+    reducedMotion.addEventListener('change', stopFlow);
+    window.addEventListener('blur', stopFlow);
+    window.addEventListener('resize', stopFlow);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stopFlow(); });
+
+    function queueDiagramLayout() {
+      if (!mobileLayout.matches || diagramFrame) return;
+      diagramFrame = requestAnimationFrame(() => {
+        diagramFrame = null;
+        if (!mobileLayout.matches) return;
+        const stageControls = atlas.querySelector('.stage-controls');
+        const bounds = stageControls.getBoundingClientRect();
+        if (bounds.height <= 0) return;
+        // Read all row geometry before writing the SVG; an open panel changes node spacing.
+        const positions = stageKeys.map((key, index) => {
+          const row = controls.find(button => button.dataset.select === key).getBoundingClientRect();
+          return [[16,14,17,14,16][index], row.top - bounds.top + row.height / 2];
+        });
+        const svg = atlas.querySelector('.mobile-svg');
+        svg.setAttribute('viewBox', `0 0 32 ${bounds.height}`);
+        atlas.querySelector('.plot').style.setProperty('--mobile-plot-height', `${bounds.height}px`);
+        svg.querySelectorAll('.node').forEach((node, index) => {
+          node.querySelectorAll('circle').forEach(circle => {
+            circle.setAttribute('cx', positions[index][0]); circle.setAttribute('cy', positions[index][1]);
+          });
+        });
+        svg.querySelectorAll('.strand').forEach(path => {
+          const edge = Number(path.dataset.edge), bend = Number(path.dataset.bend) * .3;
+          const [x1,y1] = positions[edge], [x2,y2] = positions[edge+1];
+          const middle = (y1+y2)/2;
+          path.setAttribute('d', `M${x1} ${y1}C${x1+bend} ${middle} ${x2+bend} ${middle} ${x2} ${y2}`);
+        });
+        const [firstX,firstY] = positions[0], [lastX,lastY] = positions[4];
+        svg.querySelector('.feedback-path').setAttribute('d', `M${lastX} ${lastY}C30 ${lastY} 30 ${lastY-20} 30 ${lastY-60}V${firstY+60}Q30 ${firstY} ${firstX} ${firstY}`);
+      });
+    }
+    if ('ResizeObserver' in window) new ResizeObserver(queueDiagramLayout).observe(atlas.querySelector('.stage-controls'));
+    window.addEventListener('resize', queueDiagramLayout);
+
+    function externalLink(label, url) {
+      const link = document.createElement('a');
+      link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = label;
+      const icon = svgElement('svg', {class:'icon', 'aria-hidden':'true'});
+      icon.append(svgElement('use', {href:'#icon-arrow'})); link.append(icon);
+      return link;
+    }
+    function venueLabel(paper) {
+      return paper.venue + (paper.distinction ? ' / ' + paper.distinction : '');
+    }
+    function setReturnSource(link) {
+      returnSource = link;
+      returnLink.hidden = !link;
+      if (link) returnLink.href = '#' + link.closest('.system').id;
+      else returnLink.removeAttribute('href');
+      syncWorkLink();
+    }
+    function syncWorkLink() {
+      const row = systems[selected] ? document.getElementById('system-' + selected) : null;
+      workLink.hidden = !row || returnSource?.closest('.system') === row;
+      if (row) workLink.href = '#' + row.id;
+      else workLink.removeAttribute('href');
+    }
+    function writeLocation(key) {
+      const hash = key ? '#research-' + key : '#research';
+      const state = { returnTo: returnSource?.closest('.system').id || null };
+      if (location.hash !== hash) history.pushState(state, '', hash);
+      else history.replaceState(state, '', hash);
+      currentAddress = location.href;
+    }
+    function topicFromLocation() {
+      const key = location.hash.startsWith('#research-') ? location.hash.slice(10) : null;
+      return key && Object.hasOwn(research, key) ? key : null;
+    }
+    function activateTopic(key) {
+      clearTimeout(hoverTimer);
+      if (key.startsWith('era')) atlas.querySelector('.research-history').open = true;
+      if (mobileLayout.matches) openInline(key);
+      else { pinned = key; show(key, true); syncPinned(); }
+    }
+    for (const link of document.querySelectorAll('[data-open-research]')) {
+      const key = link.dataset.openResearch;
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        setReturnSource(link);
+        activateTopic(key); writeLocation(key);
+        document.getElementById('detail-content').focus({preventScroll:true});
+        detail.scrollIntoView({block:'start', behavior:'instant'});
+      });
+    }
+    returnLink.addEventListener('click', event => {
+      if (!returnSource || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      const target = returnSource;
+      const row = target.closest('.system');
+      revealWork(row);
+      row.querySelector('.work-details').open = true;
+      clearTimeout(hoverTimer); pinned = null; syncPinned();
+      if (mobileLayout.matches) closeInline();
+      history.pushState(null, '', '#' + row.id); currentAddress = location.href;
+      target.focus({preventScroll:true}); row.scrollIntoView({block:'start', behavior:'instant'});
+      setReturnSource(null);
+    });
+    workLink.addEventListener('click', event => {
+      if (!systems[selected] || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      const row = document.getElementById('system-' + selected);
+      revealWork(row);
+      row.querySelector('.work-details').open = true;
+      clearTimeout(hoverTimer); pinned = null;
+      if (mobileLayout.matches) closeInline();
+      syncPinned(); setReturnSource(null);
+      history.pushState(null, '', '#' + row.id); currentAddress = location.href;
+      row.focus({preventScroll:true}); row.scrollIntoView({block:'start', behavior:'instant'});
+    });
+
+    function syncPinned() {
+      const isPinned = pinned !== null;
+      atlas.classList.toggle('is-pinned', isPinned);
+      atlas.dataset.pinned = pinned || '';
+      pin.setAttribute('aria-pressed', String(isPinned));
+      const label = isPinned ? 'Unpin this selection' : 'Pin this selection';
+      pin.setAttribute('aria-label', label);
+      document.getElementById('pin-tooltip').textContent = label;
+      controls.forEach(button => {
+        if (mobileLayout.matches) {
+          button.removeAttribute('aria-pressed');
+          button.setAttribute('aria-expanded', String(button.dataset.select === expanded));
+        } else {
+          button.removeAttribute('aria-expanded');
+          button.setAttribute('aria-pressed', String(button.dataset.select === selected));
+        }
+      });
+    }
+    function stageScope(key) {
+      if (stageKeys.includes(key)) return [key];
+      return ['measurement', 'redteaming', 'preparedness'].includes(key) ? stageKeys : [];
+    }
+    function syncStageEmphasis() {
+      const activeStages = stageScope(selected);
+      const hoveredStages = stageScope(hoveredKey);
+      const focusedStages = stageScope(focusedKey);
+      atlas.querySelectorAll('.stage, .stage-region').forEach(element => {
+        const key = element.dataset.select;
+        element.classList.toggle('is-selected-region', activeStages.includes(key));
+        element.classList.toggle('is-hovered', hoveredStages.includes(key));
+        element.classList.toggle('is-focused', focusedStages.includes(key));
+      });
+    }
+    function clearStageHover() {
+      clearTimeout(hoverTimer); hoveredKey = null; syncStageEmphasis();
+    }
+    function show(key, announce = false) {
+      if (!research[key] || selected === key) return;
+      const hadSelection = selected !== null;
+      selected = key;
+      const entry = research[key];
+      atlas.dataset.selected = key;
+      atlas.style.setProperty('--active', `var(--${entry.color})`);
+      document.getElementById('publication-list').style.setProperty('--active', `var(--${entry.color})`);
+      document.querySelectorAll('[data-select]').forEach(element => {
+        const id = element.dataset.select;
+        const active = id === key;
+        element.classList.toggle('is-active', active);
+        element.classList.toggle('is-related', !active && (entry.stages.includes(id) || entry.years.includes(id)));
+      });
+      document.querySelectorAll('.strand').forEach(path => path.classList.toggle('lit', entry.edges.includes(Number(path.dataset.edge))));
+      document.querySelectorAll('.feedback-path').forEach(path => path.classList.toggle('lit', entry.stages.includes('deployment') && entry.stages.includes('data')));
+      document.querySelectorAll('.weave-zone').forEach(group => group.classList.toggle('is-emphasized', entry.stages.includes(group.dataset.zone)));
+      for (const field of ['category', 'name', 'status', 'body']) document.getElementById('detail-' + field).textContent = entry[field];
+      const figure = document.getElementById('detail-figure');
+      const asset = media[key];
+      figure.hidden = !asset;
+      const kind = document.getElementById('detail-media-kind');
+      kind.hidden = !asset; kind.textContent = asset?.kind || '';
+      if (asset) {
+        figure.href = asset.page;
+        figure.dataset.figure = key;
+        if (canViewFigures) figure.setAttribute('aria-haspopup', 'dialog');
+        figure.setAttribute('aria-label', 'Enlarge figure: ' + entry.name + ' (' + asset.kind + ')');
+        figure.title = 'Enlarge figure';
+        const image = document.getElementById('detail-image');
+        image.src = asset.thumb; image.alt = asset.alt;
+      } else {
+        figure.removeAttribute('href');
+        delete figure.dataset.figure;
+        figure.removeAttribute('aria-haspopup');
+        document.getElementById('detail-image').removeAttribute('src');
+      }
+      syncWorkLink();
+      const links = document.getElementById('detail-links'); links.replaceChildren();
+      entry.links.forEach(id => {
+        const paper = publications.find(item => item.id === id);
+        const labels = {mcpo:'MCPO: Conference listing', speceval:'SpecEval', finetuning:'Fine-tuning safety', data:'Meta-Sift', fairness:'Fairness-aware learning', persuasion:'Persuasion jailbreaks', redcode:'RedCode', safeharbor:'Safe Harbor', beear:'BEEAR', ibau:'I-BAU'};
+        const label = labels[id] || paper.title;
+        const item = document.createElement('div'); item.className = 'lineage-item'; item.dataset.paper = id;
+        const meta = document.createElement('span'); meta.className = 'lineage-meta';
+        const year = document.createElement('time'); year.dateTime = paper.year; year.textContent = paper.year;
+        meta.append(year, document.createTextNode(' / ' + venueLabel(paper)));
+        item.append(externalLink(label, paper.url), meta); links.append(item);
+      });
+      const content = document.getElementById('detail-content');
+      content.scrollTop = 0;
+      document.querySelector('.detail-evidence').scrollTop = 0;
+      document.querySelectorAll('.publication').forEach(row => row.classList.toggle('is-related', entry.papers.includes(row.dataset.paper)));
+      document.querySelectorAll('.system').forEach(row => row.classList.toggle('is-related', key === row.dataset.system || (key.startsWith('era') && entry.years.includes('era' + systems[row.dataset.system].year))));
+      clearTimeout(announcementTimer);
+      if (announce) announcementTimer = setTimeout(() => { document.getElementById('announcement').textContent = entry.name; }, 120);
+      syncPinned();
+      syncStageEmphasis();
+      if (hadSelection) playFlow(key);
+    }
+    function preview(key, announce = false) {
+      if (pinned === null && !detail.contains(document.activeElement)) show(key, announce);
+    }
+    detail.addEventListener('focusin', () => clearTimeout(hoverTimer));
+    function revealTrigger(key) {
+      const trigger = controls.find(button => button.dataset.select === key);
+      const bounds = trigger.getBoundingClientRect();
+      if (bounds.top < 16 || bounds.bottom > window.innerHeight - 16) trigger.scrollIntoView({block:'start', behavior:'instant'});
+    }
+    function openInline(key) {
+      clearTimeout(hoverTimer);
+      pinned = null; expanded = key;
+      const trigger = controls.find(button => button.dataset.select === key);
+      if (trigger.classList.contains('era')) atlas.querySelector('.research-history').open = true;
+      trigger.after(detail); detail.hidden = false;
+      show(key, true); syncPinned(); queueDiagramLayout();
+    }
+    function closeInline(restoreFocus = false, updateLocation = false) {
+      const key = expanded;
+      clearTimeout(announcementTimer); document.getElementById('announcement').textContent = '';
+      expanded = null; detail.hidden = true; detailHome.after(detail);
+      syncPinned(); queueDiagramLayout();
+      if (updateLocation) { setReturnSource(null); writeLocation(null); }
+      if (restoreFocus && key) {
+        controls.find(button => button.dataset.select === key).focus({preventScroll:true});
+        revealTrigger(key);
+      }
+    }
+    function selectResearch(key) {
+      clearTimeout(hoverTimer);
+      setReturnSource(null);
+      if (selected === key) playFlow(key);
+      if (mobileLayout.matches) {
+        if (expanded === key) closeInline(false, true);
+        else { openInline(key); writeLocation(key); }
+        revealTrigger(key);
+        return;
+      }
+      activateTopic(key); writeLocation(key);
+    }
+    controls.forEach(button => {
+      button.id = 'research-' + button.dataset.select;
+      const icon = svgElement('svg', {class:'icon expand-icon', 'aria-hidden':'true'});
+      icon.append(svgElement('use', {href:'#icon-chevron'})); button.append(icon);
+    });
+    document.addEventListener('pointerdown', () => {
+      inputMode = 'pointer'; clearTimeout(hoverTimer); atlas.classList.remove('keyboard-navigation');
+    }, true);
+    document.addEventListener('keydown', () => { inputMode = 'keyboard'; atlas.classList.add('keyboard-navigation'); }, true);
+    for (const element of document.querySelectorAll('[data-select]')) {
+      const key = element.dataset.select;
+      element.addEventListener('pointerenter', event => {
+        if (mobileLayout.matches || event.pointerType !== 'mouse') return;
+        atlas.classList.remove('keyboard-navigation');
+        hoveredKey = key; syncStageEmphasis();
+        clearTimeout(hoverTimer); hoverTimer = setTimeout(() => preview(key), 120);
+      });
+      element.addEventListener('pointerleave', clearStageHover);
+      element.addEventListener('pointercancel', clearStageHover);
+      element.addEventListener('focus', () => {
+        clearTimeout(hoverTimer);
+        if (inputMode !== 'keyboard' || mobileLayout.matches) return;
+        focusedKey = key; syncStageEmphasis();
+        atlas.classList.add('keyboard-navigation');
+      });
+      element.addEventListener('blur', () => { focusedKey = null; syncStageEmphasis(); });
+      element.addEventListener('click', () => selectResearch(key));
+    }
+    pin.addEventListener('click', () => {
+      clearTimeout(hoverTimer); pinned = pinned === null ? selected : null; syncPinned();
+      writeLocation(pinned);
+    });
+    document.getElementById('detail-close').addEventListener('click', () => closeInline(true, true));
+    atlas.querySelector('.research-history').addEventListener('toggle', event => {
+      if (mobileLayout.matches && !event.target.open && expanded?.startsWith('era')) closeInline(false, true);
+    });
+    window.addEventListener('blur', clearStageHover);
+    window.addEventListener('resize', clearStageHover);
+    atlas.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        clearTimeout(hoverTimer);
+        if (mobileLayout.matches && expanded) closeInline(true, true);
+        else if (pinned !== null) { pinned = null; syncPinned(); writeLocation(null); }
+        return;
+      }
+      if (!['ArrowRight','ArrowLeft','ArrowDown','ArrowUp','Home','End'].includes(event.key) || !event.target.matches('button[data-select]')) return;
+      const selector = event.target.classList.contains('era') ? '.era' : '.stage, .measure';
+      const controls = [...atlas.querySelectorAll(selector)];
+      const index = controls.indexOf(event.target);
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? controls.length - 1 : (index + (['ArrowLeft','ArrowUp'].includes(event.key) ? -1 : 1) + controls.length) % controls.length;
+      event.preventDefault(); controls[next].focus();
+      if (!mobileLayout.matches) selectResearch(controls[next].dataset.select);
+    });
+    function applyResponsiveMode(initial = false) {
+      clearStageHover(); focusedKey = null; syncStageEmphasis();
+      stopFlow();
+      const focused = detail.contains(document.activeElement) ? document.activeElement : null;
+      const committed = topicFromLocation();
+      if (mobileLayout.matches) {
+        if (!initial && committed) openInline(committed);
+        else closeInline();
+      } else {
+        expanded = null; detailHome.after(detail); detail.hidden = false;
+        pinned = committed;
+        if (committed) show(committed);
+        syncPinned();
+      }
+      if (focused && !detail.hidden) {
+        const target = mobileLayout.matches && focused === pin ? document.getElementById('detail-close') :
+          !mobileLayout.matches && focused.id === 'detail-close' ? pin :
+          focused.isConnected ? focused : document.getElementById('detail-content');
+        target.focus({preventScroll:true});
+      } else if (focused) {
+        const trigger = controls.find(button => button.dataset.select === selected);
+        const history = atlas.querySelector('.research-history');
+        const target = trigger.classList.contains('era') && !history.open ? history.querySelector('summary') : trigger;
+        target.focus({preventScroll:true});
+      }
+    }
+    mobileLayout.addEventListener('change', () => applyResponsiveMode());
+    const navigation = document.querySelector('.mobile-nav');
+    navigation.addEventListener('click', event => { if (event.target.closest('a')) navigation.open = false; });
+    document.addEventListener('click', event => { if (!navigation.contains(event.target)) navigation.open = false; });
+    navigation.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { navigation.open = false; navigation.querySelector('summary').focus(); }
+    });
+    navigation.addEventListener('focusout', event => { if (event.relatedTarget && !navigation.contains(event.relatedTarget)) navigation.open = false; });
+
+    function restoreLocation(initial = false) {
+      if (!initial && currentAddress === location.href) return;
+      currentAddress = location.href;
+      clearTimeout(hoverTimer);
+      const key = topicFromLocation();
+      const focusedInDetail = detail.contains(document.activeElement);
+      setReturnSource(null);
+      selectWorkGroup(history.state?.workGroup || workGroups[0].id);
+      if (key) {
+        const sourceId = history.state?.returnTo;
+        if (sourceId?.startsWith('system-')) setReturnSource(document.getElementById(sourceId)?.querySelector('[data-open-research]') || null);
+        activateTopic(key);
+        if (focusedInDetail) document.getElementById('detail-content').focus({preventScroll:true});
+        controls.find(button => button.dataset.select === key).scrollIntoView({block:'start', behavior:'instant'});
+      } else {
+        if (mobileLayout.matches) closeInline();
+        pinned = null; show('data'); syncPinned();
+        let anchor;
+        try { anchor = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch { /* Invalid fragments have no target. */ }
+        if (anchor) {
+          revealWork(anchor);
+          // Open native disclosures before scrolling to shared work or paper anchors.
+          for (let parent = anchor.parentElement; parent; parent = parent.parentElement) {
+            if (parent.tagName === 'DETAILS') parent.open = true;
+          }
+          if (anchor.matches('.system')) anchor.querySelector('.work-details').open = true;
+          if (anchor.matches('.career-disclosure')) anchor.open = true;
+          if (focusedInDetail) {
+            if (!anchor.hasAttribute('tabindex')) anchor.setAttribute('tabindex', '-1');
+            anchor.focus({preventScroll:true});
+          }
+          anchor.scrollIntoView({block:'start', behavior:'instant'});
+        } else if (focusedInDetail) {
+          controls[0].focus({preventScroll:true});
+        }
+      }
+    }
+    window.addEventListener('popstate', () => { closeFigure(false); restoreLocation(); });
+    window.addEventListener('hashchange', () => { closeFigure(false); restoreLocation(); });
+    show('data');
+    applyResponsiveMode(true);
+    atlas.hidden = false;
+    for (const panel of workPanels) {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', 'work-tab-' + panel.dataset.workGroup);
+      panel.tabIndex = 0;
+      panel.querySelector('.work-group-title').hidden = true;
+    }
+    selectWorkGroup(workGroups[0].id);
+    workTabs.hidden = false;
+    document.querySelectorAll('[data-open-research]').forEach(link => { link.hidden = false; });
+    restoreLocation(true);
+    queueDiagramLayout();
+    atlasReady = true;
+  </script>
+</body>
 </html>
