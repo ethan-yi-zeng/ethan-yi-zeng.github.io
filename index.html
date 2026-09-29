@@ -98,7 +98,6 @@
     .weave-zone { opacity: .65; transition: opacity 200ms; }
     .weave-zone.is-emphasized { opacity: 1; }
     .concept-label { position: absolute; left: 0; bottom: 2px; font-size: 10px; color: var(--muted); }
-    .data-vignette { display: none; }
     .node-dot { fill: var(--teal); stroke: #fff; stroke-width: 2; transition: fill 180ms; }
     .node-ring { fill: #fff; stroke: var(--active); stroke-width: 2.3; opacity: 0; transition: opacity 180ms; }
     .node-halo { fill: none; stroke: var(--active); stroke-width: 1; opacity: 0; }
@@ -142,24 +141,25 @@
     .research-history summary { cursor: pointer; font-size: 12px; color: var(--muted); width: fit-content; min-height: 44px; padding: 12px 0; }
     .research-history summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
     .research-history summary span { margin-left: 12px; color: var(--muted); }
-    .detail { border-top: 1px solid #bfc9ce; border-bottom: 1px solid #e3e8e9; padding: 25px 0; display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: clamp(20px, 3.8%, 40px); min-height: 320px; height: auto; position: relative; }
+    .detail { border-top: 1px solid #bfc9ce; border-bottom: 1px solid #e3e8e9; padding: 25px 0; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(24px, 4%, 44px); min-height: 320px; height: auto; position: relative; align-items: start; }
     .detail[hidden] { display: none; }
-    .detail-content { min-width: 0; padding-right: 3px; }
-    .detail-meta { margin-bottom: 12px; padding-right: 20px; }
-    .detail-evidence { min-width: 0; padding: 0 44px 0 20px; border-left: 1px solid var(--line); }
-    .evidence-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .detail-content { min-width: 0; position: relative; }
+    .detail-meta { margin-bottom: 16px; padding-right: 52px; }
+    .detail-evidence { min-width: 0; }
+    .detail-visual { margin: 0 0 18px; }
+    .detail-references { border-top: 1px solid var(--line); padding-top: 13px; }
     .detail-category { margin: 0 0 5px; font: 10px/1.65 "SFMono-Regular", Consolas, monospace; color: var(--muted); text-transform: uppercase; }
     .detail-name { font: 26px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 8px; overflow-wrap: break-word; text-wrap: balance; }
     .detail-status { margin: 0; font-size: 12px; color: var(--muted); }
-    .detail-media-kind { display: block; font-size: 10px; margin-top: 4px; color: var(--muted); }
-    .detail-figure { flex: 0 0 66px; width: 66px; height: 44px; }
-    .detail-figure .figure-expand { width: 16px; height: 16px; bottom: 1px; right: 1px; }
-    .detail-figure .figure-expand .icon { width: 12px; height: 12px; }
+    .detail-media-kind { display: block; font-size: 10px; margin-top: 7px; color: var(--muted); }
+    .detail-figure { width: 100%; aspect-ratio: 3 / 2; padding: 8px; }
+    .detail-figure .figure-expand { width: 32px; height: 32px; bottom: 7px; right: 7px; border: 1px solid var(--line); }
+    .detail-figure .figure-expand .icon { width: 17px; height: 17px; }
     .detail-body { margin: 0 0 9px; font-size: 14px; color: #525d64; max-width: 720px; }
     .detail-links-label { font-size: 11px; color: var(--muted); margin: 0; }
-    .detail-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 8px; min-height: 45px; }
-    .lineage-item { min-width: 0; }
-    .lineage-meta { display: block; color: var(--muted); font-size: 11px; line-height: 1.5; margin-top: -3px; }
+    .detail-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; margin-top: 4px; min-height: 45px; }
+    .lineage-item { min-width: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 12px; }
+    .lineage-meta { display: block; color: var(--muted); font-size: 10px; line-height: 1.5; }
     .lineage-item time { color: #47575f; }
     .detail-links a { display: inline-flex; gap: 3px; align-items: center; color: var(--teal); font-size: 12px; min-height: 44px; overflow-wrap: anywhere; }
     .detail-links .icon { width: 13px; height: 13px; }
@@ -168,7 +168,7 @@
     .pin[aria-pressed="true"] { color: var(--active); border-color: #e3c8c2; background: #fcf7f5; }
     .pin .icon { transform: rotate(35deg); transition: transform 180ms; }
     .pin[aria-pressed="true"] .icon { transform: rotate(0); }
-    .tooltip-wrap { position: absolute; right: 0; top: 22px; }
+    .tooltip-wrap { position: absolute; right: 0; top: -4px; }
     .tooltip { pointer-events: none; position: absolute; right: 0; top: 48px; font-size: 11px; line-height: 1.3; padding: 6px 8px; background: #252c30; color: #fff; border-radius: 3px; width: max-content; opacity: 0; transition: opacity 140ms; z-index: 5; }
     .tooltip-wrap:focus-within .tooltip { opacity: 1; }
     @media (hover: hover) and (pointer: fine) {
@@ -326,25 +326,21 @@
       .era-year { font-size: 11px; }
       .era-title { font-size: 14px; line-height: 1.4; }
       .era-papers { font-size: 12px; }
-      .detail { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 16px; padding: 4px 0 20px; margin-bottom: 8px; min-height: 0; height: auto; width: 100%; border-top: 0; border-bottom: 0; background: #fff; z-index: 4; pointer-events: auto; }
+      .detail { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 18px; padding: 4px 0 20px; margin-bottom: 8px; min-height: 0; height: auto; width: 100%; border-top: 0; border-bottom: 0; background: #fff; z-index: 4; pointer-events: auto; }
       .assurance-controls > .detail { background: transparent; }
       .stage-controls > .detail { width: calc(100% - 44px); margin-left: 44px; }
-      .detail-meta { padding: 0 34px 0 0; margin-bottom: 10px; }
+      .detail-meta { padding: 0 44px 0 0; margin-bottom: 10px; }
       .detail-name { font-size: 23px; margin-bottom: 6px; text-wrap: pretty; }
       .detail-category { display: none; }
-      .detail-figure { flex: 0 0 auto; width: 100px; height: auto; aspect-ratio: 3 / 2; }
+      .detail-figure { width: 100%; padding: 6px; }
       .detail-content { grid-column: 1; grid-row: 1; overflow: visible; overscroll-behavior: auto; padding: 0; }
       .detail-evidence { border: 0; padding: 0; overflow: visible; }
-      .evidence-heading { flex-direction: row-reverse; }
-      .atlas[data-selected="data"] .evidence-heading { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
-      .atlas[data-selected="data"] .detail-figure { width: 100%; aspect-ratio: 2.4; border: 0; background: #fff; }
-      .atlas[data-selected="data"] #detail-image { display: none; }
-      .atlas[data-selected="data"] .data-vignette { display: block; width: 100%; height: 100%; }
       .tooltip-wrap { top: 0; right: -4px; }
       .pin, .tooltip { display: none; }
       .detail-close { display: grid; }
       .detail-body { font-size: 15px; line-height: 1.65; }
       .detail-links { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .lineage-item { display: block; }
       .detail-links a { font-size: 14px; }
       .lineage-meta { font-size: 12px; margin-top: -3px; }
       .selected-work { padding-top: 34px; }
@@ -515,13 +511,15 @@
               <div class="detail-meta"><p class="detail-category" id="detail-category"></p><h2 class="detail-name" id="detail-name"></h2><p class="detail-status" id="detail-status"></p></div>
               <p class="detail-body" id="detail-body"></p>
               <div class="detail-actions"><a class="detail-work" id="detail-work" hidden>Current work<svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a><a class="detail-return" id="detail-return" hidden>Back to current work</a></div>
+              <div class="tooltip-wrap"><button id="pin" class="pin" aria-label="Pin this selection" aria-pressed="false" aria-describedby="pin-tooltip"><svg class="icon" aria-hidden="true"><use href="#icon-pin"/></svg></button><span class="tooltip" id="pin-tooltip" role="tooltip">Pin this selection</span><button id="detail-close" class="detail-close" aria-label="Collapse research details" title="Collapse research details"><svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#icon-chevron"/></svg></button></div>
             </div>
             <aside class="detail-evidence" aria-label="Related research and illustration">
-              <div class="evidence-heading"><p class="detail-links-label">Related research</p><a class="figure-link detail-figure" id="detail-figure" target="_blank" rel="noopener noreferrer" hidden><img id="detail-image" alt="" width="180" height="120" decoding="async"><svg class="data-vignette" id="data-vignette" viewBox="0 0 500 208" aria-hidden="true"></svg><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a></div>
-              <span class="sr-only" id="detail-media-kind" hidden></span>
-              <div class="detail-links" id="detail-links"></div>
+              <figure class="detail-visual" id="detail-visual" hidden>
+                <a class="figure-link detail-figure" id="detail-figure" target="_blank" rel="noopener noreferrer" hidden><img id="detail-image" alt="" width="1536" height="1024" decoding="async"><span class="figure-expand" aria-hidden="true"><svg class="icon"><use href="#icon-zoom-in"/></svg></span></a>
+                <figcaption class="detail-media-kind" id="detail-media-kind" hidden></figcaption>
+              </figure>
+              <div class="detail-references"><p class="detail-links-label">Related research</p><div class="detail-links" id="detail-links"></div></div>
             </aside>
-            <div class="tooltip-wrap"><button id="pin" class="pin" aria-label="Pin this selection" aria-pressed="false" aria-describedby="pin-tooltip"><svg class="icon" aria-hidden="true"><use href="#icon-pin"/></svg></button><span class="tooltip" id="pin-tooltip" role="tooltip">Pin this selection</span><button id="detail-close" class="detail-close" aria-label="Collapse research details" title="Collapse research details"><svg class="icon" aria-hidden="true" style="transform:rotate(180deg)"><use href="#icon-chevron"/></svg></button></div>
           </section>
           <details class="research-history">
             <summary>Research over time <span>2021&ndash;2026</span></summary>
@@ -871,16 +869,12 @@
       const joints = document.getElementById('desktop-junctions');
       const glyphs = document.getElementById('desktop-glyphs');
       const packets = document.getElementById('desktop-packets');
-      const vignette = document.getElementById('data-vignette');
-      const miniature = svgElement('g', { transform: 'translate(0 10)' });
-      vignette.append(miniature);
       const colors = ['gray', 'blue', 'gray', 'teal', 'coral', 'blue', 'gray'];
       const columns = [248, 280, 314, 348, 382, 416, 450];
       const spreads = [28, 45, 58, 55, 44, 29, 15];
       const appendPath = (d, color, edge, region) => {
         const path = svgElement('path', { d, class: `strand ${color}`, 'data-edge': edge, 'data-region': region });
         paths.append(path);
-        if (region === 'data' || region === 'pretraining') miniature.append(path.cloneNode(true));
         return path;
       };
       const token = (x, y, color, parent = joints) => parent.append(svgElement('rect', {
@@ -921,7 +915,7 @@
         appendPath(output, color, 3, 'adaptation');
         points.forEach(([x, y], column) => {
           const junction = svgElement('circle', { cx: x, cy: y, r: 2.4, class: `weave-junction ${color}` });
-          joints.append(junction); miniature.append(junction.cloneNode(true));
+          joints.append(junction);
           if (column === 4 && lane % 2 === 0) token(x, y, color);
         });
         token(78, startY, color);
@@ -939,7 +933,6 @@
         const group = svgElement('g', { class: 'weave-glyph weave-zone', 'data-zone': zone });
         group.append(svgElement('use', { href: '#icon-' + id, x, y, width: 29, height: 29 }));
         glyphs.append(group);
-        if (zone === 'data') miniature.append(group.cloneNode(true));
       }
       glyph('file', 22, 31, 'data');
       glyph('image', 22, 83, 'data');
@@ -1185,6 +1178,7 @@
       for (const field of ['category', 'name', 'status', 'body']) document.getElementById('detail-' + field).textContent = entry[field];
       const figure = document.getElementById('detail-figure');
       const asset = media[key];
+      document.getElementById('detail-visual').hidden = !asset;
       figure.hidden = !asset;
       const kind = document.getElementById('detail-media-kind');
       kind.hidden = !asset; kind.textContent = asset?.kind || '';
@@ -1196,11 +1190,16 @@
         figure.title = 'Enlarge figure';
         const image = document.getElementById('detail-image');
         image.src = asset.thumb; image.alt = asset.alt;
+        image.srcset = `${asset.thumb} 640w, ${asset.src} ${asset.width}w`;
+        image.sizes = '(max-width: 640px) calc(100vw - 84px), (max-width: 1100px) 40vw, 407px';
+        image.width = asset.width; image.height = asset.height;
       } else {
         figure.removeAttribute('href');
         delete figure.dataset.figure;
         figure.removeAttribute('aria-haspopup');
         document.getElementById('detail-image').removeAttribute('src');
+        document.getElementById('detail-image').removeAttribute('srcset');
+        document.getElementById('detail-image').removeAttribute('sizes');
       }
       syncWorkLink();
       const links = document.getElementById('detail-links'); links.replaceChildren();
